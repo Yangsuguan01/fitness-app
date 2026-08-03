@@ -789,7 +789,7 @@ function renderDiet() {
       try {
         // 🌐 API 多路候选探测
         const apiCandidates = [
-          'https://fitness-ai.believed-astrodon.workers.dev/recognize',  // Worker (health check now tests Baidu)
+          'https://fitness-ai.abiding-giant.workers.dev/recognize',  // Worker (health check now tests Baidu)
           '/api/recognize',                                              // Serverless (Vercel etc)
         ];
         let apiBase = apiCandidates[0];
