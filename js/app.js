@@ -789,8 +789,10 @@ function renderDiet() {
       try {
         // API 地址（按优先级尝试）
         const apiCandidates = [
-          'https://fitness-ai.purple-ornament.workers.dev/recognize',  // Cloudflare Worker
-          '/api/recognize',                                           // 同域 Serverless (Vercel/Netlify)
+          'https://fitness-ai.believed-astrodon.workers.dev/recognize',                                    // Cloudflare Worker
+          '/fitness-app/api/recognize',                              // GitHub Pages (direct Baidu call via Worker)
+          'https://fitness-ai.believed-astrodon.workers.dev/recognize',  // Cloudflare Worker
+                                                     // 同域 Serverless (Vercel/Netlify)
         ];
         let apiBase = apiCandidates[0];
         let resp = null;
