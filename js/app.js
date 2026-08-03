@@ -802,7 +802,7 @@ function renderDiet() {
           try {
             const testResp = await fetch(candidate === '/api/recognize'
               ? '/api/recognize'
-              : candidate.replace('/recognize', '/health'), { signal: AbortSignal.timeout(3000) });
+              : candidate.replace('/recognize', '/health'), { signal: AbortSignal.timeout(5000) });
             if (testResp.ok) {
               apiBase = candidate;
               break;
@@ -810,7 +810,7 @@ function renderDiet() {
           } catch (e) { /* 继续尝试下一个 */ }
         }
 
-        resp = await fetch(apiBase, {
+        resp = await fetch(apiBase, { signal: AbortSignal.timeout(15000),
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ image: compressedBase64 })
