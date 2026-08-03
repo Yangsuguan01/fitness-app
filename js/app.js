@@ -3,6 +3,24 @@
    ═══════════════════════════════════ */
 
 // ─── 全局状态 ───
+
+// --- 全局错误显示捕获器 ---
+window.addEventListener("error", function(e) {
+  var el = document.querySelector(".app-content") || document.querySelector("main");
+  if (el) {
+    el.innerHTML =
+      "<div style='padding:20px;color:#ff6b6b;background:#1a1a2e;" +
+      "border:2px solid #ff6b6b;border-radius:8px;margin:16px;" +
+      "font-family:sans-serif;white-space:pre-wrap;overflow:auto'>" +
+      "<b style='font-size:18px'>❌ " + e.message + "</b>" +
+      "<br><span style='color:#999'>" + (e.filename || "").split("/").pop() + ":" + e.lineno + ":" + e.colno + "</span>" +
+      "<br><code style='font-size:11px;color:#aaa'>" + ((e.error && e.error.stack) || "").substring(0, 400) + "</code>" +
+      "</div>";
+  }
+  return false;
+});
+
+
 const state = {
   currentTab: 'today',
   todayKey: getTodayKey(),
