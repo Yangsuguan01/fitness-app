@@ -1075,4 +1075,4 @@ function initApp() {
 
 document.readyState === 'loading'
   ? document.addEventListener('DOMContentLoaded', () => { initApp(); renderPage(); })
-  : initApp();
+  : (() => { initApp(); renderPage(); })();
