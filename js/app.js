@@ -789,45 +789,14 @@ function renderDiet() {
       try {
         // API 地址（按优先级尝试）
         const apiCandidates = [
-    'https://fitness-ai.believed-astrodon.workers.dev/recognize',
-    '/api/recognize',
-    'fitness-ai.believed-astrodon.workers.dev/baidu',
-  ];
+          'https://fitness-ai.believed-astrodon.workers.dev/recognize',  // Cloudflare Worker
+          '/api/recognize',                                           // 同域 Serverless (Vercel/Netlify)
+        ];
         let apiBase = apiCandidates[0];
         let resp = null;
 
         // 尝试每个候选 API，第一个成功就用
-        
-    // 第三个候选: 浏览器直调百度API（国内网络最快）
-    if (candidate.endsWith('/baidu')) {
-      try {
-        const tokenResp = await fetch(
-          'https://aip.baidubce.com/oauth/2.0/token?grant_type=client_credentials&'
-          + 'client_id=gJ1pVvEcOf4pd4dHzKQa8BMQ&client_secret=yDJpvuI18Qwjj5iVP7J5rBjrnNnCayx3',
-          { method: 'POST', signal: AbortSignal.timeout(5000) }
-        );
-        const tok = await tokenResp.json();
-        if (!tok.access_token) throw new Error('token');
-        const dishForm = new URLSearchParams({ image: compressedBase64, top_num: '3' });
-        const dishResp = await fetch(
-          'https://aip.baidubce.com/rest/2.0/image-classify/v2/dish?access_token=' + tok.access_token,
-          { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-            body: dishForm.toString(), signal: AbortSignal.timeout(15000) }
-        );
-        const dish = await dishResp.json();
-        return dishResp.ok
-          ? { ok: true, data: { success: true, dishes: (dish.result || []).slice(0, 3).map(d => ({
-              name: d.name, calorie: d.calorie || null,
-              probability: Math.round((d.probability || 0) * 1000) / 10
-            }))}}
-          : { ok: false, data: { error: '百度识别失败' } };
-      } catch (e) {
-        return { ok: false, data: { error: '百度直调失败: ' + e.message } };
-      }
-    }
-  
-    
-          for (const candidate of apiCandidates) {
+        for (const candidate of apiCandidates) {
           try {
             const testResp = await fetch(candidate === '/api/recognize'
               ? '/api/recognize'
@@ -839,7 +808,7 @@ function renderDiet() {
           } catch (e) { /* 继续尝试下一个 */ }
         }
 
-        resp = await fetch(apiBase, { signal: AbortSignal.timeout(15000), signal: AbortSignal.timeout(15000), signal: AbortSignal.timeout(15000),
+        resp = await fetch(apiBase, { signal: AbortSignal.timeout(15000),
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ image: compressedBase64 })
