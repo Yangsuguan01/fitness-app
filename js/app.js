@@ -3,24 +3,6 @@
    ═══════════════════════════════════ */
 
 // ─── 全局状态 ───
-
-// --- 全局错误显示捕获器 ---
-window.addEventListener("error", function(e) {
-  var el = document.querySelector(".app-content") || document.querySelector("main");
-  if (el) {
-    el.innerHTML =
-      "<div style='padding:20px;color:#ff6b6b;background:#1a1a2e;" +
-      "border:2px solid #ff6b6b;border-radius:8px;margin:16px;" +
-      "font-family:sans-serif;white-space:pre-wrap;overflow:auto'>" +
-      "<b style='font-size:18px'>❌ " + e.message + "</b>" +
-      "<br><span style='color:#999'>" + (e.filename || "").split("/").pop() + ":" + e.lineno + ":" + e.colno + "</span>" +
-      "<br><code style='font-size:11px;color:#aaa'>" + ((e.error && e.error.stack) || "").substring(0, 400) + "</code>" +
-      "</div>";
-  }
-  return false;
-});
-
-
 const state = {
   currentTab: 'today',
   todayKey: getTodayKey(),
@@ -805,46 +787,59 @@ function renderDiet() {
       preview.innerHTML += `<div class="recognition-loading"><div class="spin">🔍</div><div style="margin-top:4px">AI 识别中...</div></div>`;
 
       try {
-        // 菜品识别 - 内嵌百度 Token（30天有效），直调菜品 API（CORS: * ✅）
-        const dishResp = await fetch(
-          'https://aip.baidubce.com/rest/2.0/image-classify/v2/dish?access_token=' + '24.29e5ef16ab7b8e9b1c9a0539954e02b9.2592000.1788350269.282335-124069681',
-          {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-            body: new URLSearchParams({ image: compressedBase64, top_num: '3' }).toString(),
-            signal: AbortSignal.timeout(15000)
-          }
-        );
-        if (!dishResp.ok) throw new Error('百度状态码: ' + dishResp.status);
-        const dishData = await dishResp.json();
+        // API 地址（按优先级尝试）
+        const apiCandidates = [
+          'https://fitness-ai.purple-ornament.workers.dev/recognize',  // Cloudflare Worker
+          '/api/recognize',                                           // 同域 Serverless (Vercel/Netlify)
+        ];
+        let apiBase = apiCandidates[0];
+        let resp = null;
+
+        // 尝试每个候选 API，第一个成功就用
+        for (const candidate of apiCandidates) {
+          try {
+            const testResp = await fetch(candidate === '/api/recognize'
+              ? '/api/recognize'
+              : candidate.replace('/recognize', '/health'), { signal: AbortSignal.timeout(3000) });
+            if (testResp.ok) {
+              apiBase = candidate;
+              break;
+            }
+          } catch (e) { /* 继续尝试下一个 */ }
+        }
+
+        resp = await fetch(apiBase, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ image: compressedBase64 })
+        });
+        const data = await resp.json();
+
+        // 移除 loading
         preview.querySelector('.recognition-loading')?.remove();
-        if (dishData.error_msg) {
+
+        if (data.error) {
           resultDiv.style.display = 'block';
-          resultDiv.innerHTML = '<div class="text-small text-red" style="padding:12px;background:var(--bg2);border-radius:8px">\u274c ' + dishData.error_msg + '</div><button class="btn btn-ghost btn-sm mt-8" id="retryBtn">\ud83d\udd04 \u91cd\u65b0\u62cd\u7167</button>';
-          if (camStatus) camStatus.textContent = '\u274c \u8bc6\u522b\u5931\u8d25';
+          resultDiv.innerHTML = `<div class="text-small text-red" style="padding:12px;background:var(--bg2);border-radius:8px">❌ ${data.error}</div>
+            <button class="btn btn-ghost btn-sm mt-8" id="retryBtn">🔄 重新拍照</button>`;
+          if (camStatus) camStatus.textContent = '❌ 识别失败';
           document.getElementById('retryBtn')?.addEventListener('click', () => { cameraInput.click(); });
           return;
         }
-        if (dishData.result && dishData.result.length > 0) {
-          const dishes = dishData.result.slice(0, 3).map(d => ({
-            name: d.name,
-            calorie: d.calorie ? parseFloat(d.calorie) : null,
-            probability: Math.round((d.probability || 0) * 1000) / 10
-          }));
-          if (typeof showRecognitionResult === 'function') showRecognitionResult(dishes);
-          if (camStatus) camStatus.textContent = '\u2705 \u5df2\u8bc6\u522b';
+
+        if (data.dishes && data.dishes.length > 0) {
+          showRecognitionResult(data.dishes);
+          if (camStatus) camStatus.textContent = '✅ 已识别 ✓';
         } else {
           resultDiv.style.display = 'block';
-          resultDiv.innerHTML = '<div class="text-muted" style="padding:12px;background:var(--bg2);border-radius:8px;text-align:center"><div style="font-size:24px;margin-bottom:4px">\ud83e\udd37</div><div>\u6ca1\u8ba4\u51fa\u6765\uff0c\u8bd5\u8bd5\u6362\u4e2a\u89d2\u5ea6</div><button class="btn btn-ghost btn-sm mt-8" id="retryBtn">\ud83d\udd04 \u91cd\u65b0\u62cd\u7167</button></div>';
-          if (camStatus) camStatus.textContent = '\u274c \u672a\u8bc6\u522b';
+          resultDiv.innerHTML = `<div class="text-muted" style="padding:12px;background:var(--bg2);border-radius:8px;text-align:center">
+            <div style="font-size:24px;margin-bottom:4px">🤷</div>
+            <div>没认出来，试试换个角度</div>
+            <button class="btn btn-ghost btn-sm mt-8" id="retryBtn">🔄 重新拍照</button>
+          </div>`;
+          if (camStatus) camStatus.textContent = '❌ 未识别';
           document.getElementById('retryBtn')?.addEventListener('click', () => { cameraInput.click(); });
         }
-      } catch (err) {
-        preview.querySelector('.recognition-loading')?.remove();
-        resultDiv.style.display = 'block';
-        resultDiv.innerHTML = '<div class="text-small text-red" style="padding:12px;background:var(--bg2);border-radius:8px">\u26a0\ufe0f ' + err.message + '<button class="btn btn-ghost btn-sm mt-8 btn-block" id="retryBtn">\ud83d\udd04 \u91cd\u65b0\u62cd\u7167</button></div>';
-        if (camStatus) camStatus.textContent = '\u26a0\ufe0f \u5931\u8d25';
-        document.getElementById('retryBtn')?.addEventListener('click', () => { cameraInput.click(); });
       } catch (err) {
         preview.querySelector('.recognition-loading')?.remove();
         resultDiv.style.display = 'block';
@@ -1092,5 +1087,5 @@ function initApp() {
 }
 
 document.readyState === 'loading'
-  ? document.addEventListener('DOMContentLoaded', () => { initApp(); renderPage(); })
-  : (() => { initApp(); renderPage(); })();
+  ? document.addEventListener('DOMContentLoaded', initApp)
+  : initApp();
