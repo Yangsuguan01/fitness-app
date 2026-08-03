@@ -758,146 +758,47 @@ function renderDiet() {
   if (btnPhoto && cameraInput) {
     btnPhoto.addEventListener('click', () => cameraInput.click());
 
-    cameraInput.addEventListener('change', async (e) => {
-      const file = e.target.files?.[0];
-      if (!file) return;
-
-      preview.style.display = 'block';
-      resultDiv.style.display = 'none';
-
-      // ── 压缩图片（800px宽，速度提升10倍） ──
-      const img = await createImageBitmap(file);
-      const maxW = 800;
-      const scale = Math.min(1, maxW / img.width);
-      const w = Math.round(img.width * scale);
-      const h = Math.round(img.height * scale);
-
-      const canvas = document.createElement('canvas');
-      canvas.width = w;
-      canvas.height = h;
-      const ctx = canvas.getContext('2d');
-      ctx.drawImage(img, 0, 0, w, h);
-
-      const compressedBase64 = canvas.toDataURL('image/jpeg', 0.7).split(',')[1];
-      img.close();
-
-      if (camStatus) camStatus.textContent = '🤖 识别中...';
-
-      preview.innerHTML = `<img src="data:image/jpeg;base64,${compressedBase64}" style="width:100%;max-height:200px;object-fit:cover;border-radius:8px;margin-bottom:8px">`;
-      preview.innerHTML += `<div class="recognition-loading"><div class="spin">🔍</div><div style="margin-top:4px">AI 识别中...</div></div>`;
-
-      try {
-        // 🌐 API 多路候选探测
-        const apiCandidates = [
-          'https://fitness-ai.abiding-giant.workers.dev/recognize',  // Worker (health check now tests Baidu)
-          '/api/recognize',                                              // Serverless (Vercel etc)
-        ];
-        let apiBase = apiCandidates[0];
-        let resp = null;
-
-        // 探测可用的 API
-        for (const candidate of apiCandidates) {
-          try {
-            const testResp = await fetch(candidate === '/api/recognize'
-              ? '/api/recognize'
-              : candidate.replace('/recognize', '/health'), { signal: AbortSignal.timeout(5000) });
-            if (testResp.ok) {
-              apiBase = candidate;
-              break;
-            }
-          } catch (e) { /* try next */ }
-        }
-
-        // 如果 Worker 不可达（或 Worker 连不上百度），尝试浏览器直调百度
-        if (apiBase === apiCandidates[0] && apiBase !== '/api/recognize') {
-          try {
-            // 用 GET 获取百度 Token（简单请求，无 CORS 预检）
-            const tokResp = await fetch(
-              'https://aip.baidubce.com/oauth/2.0/token?grant_type=client_credentials&client_id=gJ1pVvEcOf4pd4dHzKQa8BMQ&client_secret=yDJpvuI18Qwjj5iVP7J5rBjrnNnCayx3',
-              { method: 'POST', signal: AbortSignal.timeout(8000) }
-            );
-            const tokData = await tokResp.json();
-            if (tokData.access_token) {
-              const formBody = new URLSearchParams();
-              formBody.append('image', compressedBase64);
-              formBody.append('top_num', '3');
-              const dishResp = await fetch(
-                'https://aip.baidubce.com/rest/2.0/image-classify/v2/dish?access_token=' + tokData.access_token,
-                {
-                  method: 'POST',
-                  headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                  body: formBody.toString(),
-                  signal: AbortSignal.timeout(15000)
-                }
-              );
-              if (dishResp.ok) {
-                const dishData = await dishResp.json();
-                if (dishData.result && dishData.result.length > 0) {
-                  resp = {
-                    ok: true,
-                    json: async () => ({
-                      success: true,
-                      dishes: dishData.result.slice(0, 3).map(d => ({
-                        name: d.name,
-                        calorie: d.calorie ? parseFloat(d.calorie) : null,
-                        probability: Math.round((d.probability || 0) * 1000) / 10
-                      }))
-                    })
-                  };
-                }
-              }
-            }
-          } catch (e) { /* direct Baidu failed */ }
-        }
-
-        // 如果 resp 还没赋值，走探测到的候选
-        if (!resp) {
-          resp = await fetch(apiBase, { signal: AbortSignal.timeout(15000),
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ image: compressedBase64 })
-          });
-        }
-
-        const data = await resp.json();
-
-        // 移除 loading
-        preview.querySelector('.recognition-loading')?.remove();
-
-        if (data.error) {
-          resultDiv.style.display = 'block';
-          resultDiv.innerHTML = `<div class="text-small text-red" style="padding:12px;background:var(--bg2);border-radius:8px">❌ ${data.error}</div>
-            <button class="btn btn-ghost btn-sm mt-8" id="retryBtn">🔄 重新拍照</button>`;
-          if (camStatus) camStatus.textContent = '❌ 识别失败';
-          document.getElementById('retryBtn')?.addEventListener('click', () => { cameraInput.click(); });
-          return;
-        }
-
-        if (data.dishes && data.dishes.length > 0) {
-          showRecognitionResult(data.dishes);
-          if (camStatus) camStatus.textContent = '✅ 已识别 ✓';
-        } else {
-          resultDiv.style.display = 'block';
-          resultDiv.innerHTML = `<div class="text-muted" style="padding:12px;background:var(--bg2);border-radius:8px;text-align:center">
-            <div style="font-size:24px;margin-bottom:4px">🤷</div>
-            <div>没认出来，试试换个角度</div>
-            <button class="btn btn-ghost btn-sm mt-8" id="retryBtn">🔄 重新拍照</button>
-          </div>`;
-          if (camStatus) camStatus.textContent = '❌ 未识别';
-          document.getElementById('retryBtn')?.addEventListener('click', () => { cameraInput.click(); });
-        }
+    try {
+  const dishResp = await fetch(
+    'https://aip.baidubce.com/rest/2.0/image-classify/v2/dish?access_token=' + '24.29e5ef16ab7b8e9b1c9a0539954e02b9.2592000.1788350269.282335-124069681',
+    {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams({ image: compressedBase64, top_num: '3' }).toString(),
+      signal: AbortSignal.timeout(15000)
+    }
+  );
+  if (!dishResp.ok) throw new Error('百度状态: ' + dishResp.status);
+  const dish = await dishResp.json();
+  preview.querySelector('.recognition-loading')?.remove();
+  if (dish.error_msg) {
+    resultDiv.style.display = 'block';
+    resultDiv.innerHTML = '<div class="text-small text-red" style="padding:12px;background:var(--bg2);border-radius:8px">\u274c ' + dish.error_msg + '</div><button class="btn btn-ghost btn-sm mt-8" id="retryBtn">\ud83d\udd04 \u91cd\u65b0\u62cd\u7167</button>';
+    if (camStatus) camStatus.textContent = '\u274c \u8bc6\u522b\u5931\u8d25';
+    document.getElementById('retryBtn')?.addEventListener('click', () => { cameraInput.click(); });
+    return;
+  }
+  if (dish.result && dish.result.length > 0) {
+    const dishes = dish.result.slice(0, 3).map(d => ({
+      name: d.name,
+      calorie: d.calorie ? parseFloat(d.calorie) : null,
+      probability: Math.round((d.probability || 0) * 1000) / 10
+    }));
+    if (typeof showRecognitionResult === 'function') showRecognitionResult(dishes);
+    if (camStatus) camStatus.textContent = '\u2705 \u5df2\u8bc6\u522b';
+  } else {
+    resultDiv.style.display = 'block';
+    resultDiv.innerHTML = '<div class="text-muted" style="padding:12px;background:var(--bg2);border-radius:8px;text-align:center"><div style="font-size:24px;margin-bottom:4px">\ud83e\udd37</div><div>\u6ca1\u8ba4\u51fa\u6765\uff0c\u8bd5\u8bd5\u6362\u4e2a\u89d2\u5ea6</div><button class="btn btn-ghost btn-sm mt-8" id="retryBtn">\ud83d\udd04 \u91cd\u65b0\u62cd\u7167</button></div>';
+    if (camStatus) camStatus.textContent = '\u274c \u672a\u8bc6\u522b';
+    document.getElementById('retryBtn')?.addEventListener('click', () => { cameraInput.click(); });
+  }
 } catch (err) {
-        preview.querySelector('.recognition-loading')?.remove();
-        resultDiv.style.display = 'block';
-        resultDiv.innerHTML = `<div class="text-small text-red" style="padding:12px;background:var(--bg2);border-radius:8px">
-          ⚠️ 连接超时，检查服务器是否在运行
-          <button class="btn btn-ghost btn-sm mt-8 btn-block" id="retryBtn">🔄 重新拍照</button>
-        </div>`;
-        if (camStatus) camStatus.textContent = '⚠️ 连接失败';
-        document.getElementById('retryBtn')?.addEventListener('click', () => { cameraInput.click(); });
-      }
-      e.target.value = '';
-    });
+  preview.querySelector('.recognition-loading')?.remove();
+  resultDiv.style.display = 'block';
+  resultDiv.innerHTML = '<div class="text-small text-red" style="padding:12px;background:var(--bg2);border-radius:8px">\u26a0\ufe0f ' + err.message + '<button class="btn btn-ghost btn-sm mt-8 btn-block" id="retryBtn">\ud83d\udd04 \u91cd\u65b0\u62cd\u7167</button></div>';
+  if (camStatus) camStatus.textContent = '\u26a0\ufe0f \u5931\u8d25';
+  document.getElementById('retryBtn')?.addEventListener('click', () => { cameraInput.click(); });
+});
   }
 }
 
