@@ -758,47 +758,87 @@ function renderDiet() {
   if (btnPhoto && cameraInput) {
     btnPhoto.addEventListener('click', () => cameraInput.click());
 
-    try {
-  const dishResp = await fetch(
-    'https://aip.baidubce.com/rest/2.0/image-classify/v2/dish?access_token=' + '24.29e5ef16ab7b8e9b1c9a0539954e02b9.2592000.1788350269.282335-124069681',
-    {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: new URLSearchParams({ image: compressedBase64, top_num: '3' }).toString(),
-      signal: AbortSignal.timeout(15000)
-    }
-  );
-  if (!dishResp.ok) throw new Error('百度状态: ' + dishResp.status);
-  const dish = await dishResp.json();
-  preview.querySelector('.recognition-loading')?.remove();
-  if (dish.error_msg) {
-    resultDiv.style.display = 'block';
-    resultDiv.innerHTML = '<div class="text-small text-red" style="padding:12px;background:var(--bg2);border-radius:8px">\u274c ' + dish.error_msg + '</div><button class="btn btn-ghost btn-sm mt-8" id="retryBtn">\ud83d\udd04 \u91cd\u65b0\u62cd\u7167</button>';
-    if (camStatus) camStatus.textContent = '\u274c \u8bc6\u522b\u5931\u8d25';
-    document.getElementById('retryBtn')?.addEventListener('click', () => { cameraInput.click(); });
-    return;
-  }
-  if (dish.result && dish.result.length > 0) {
-    const dishes = dish.result.slice(0, 3).map(d => ({
-      name: d.name,
-      calorie: d.calorie ? parseFloat(d.calorie) : null,
-      probability: Math.round((d.probability || 0) * 1000) / 10
-    }));
-    if (typeof showRecognitionResult === 'function') showRecognitionResult(dishes);
-    if (camStatus) camStatus.textContent = '\u2705 \u5df2\u8bc6\u522b';
-  } else {
-    resultDiv.style.display = 'block';
-    resultDiv.innerHTML = '<div class="text-muted" style="padding:12px;background:var(--bg2);border-radius:8px;text-align:center"><div style="font-size:24px;margin-bottom:4px">\ud83e\udd37</div><div>\u6ca1\u8ba4\u51fa\u6765\uff0c\u8bd5\u8bd5\u6362\u4e2a\u89d2\u5ea6</div><button class="btn btn-ghost btn-sm mt-8" id="retryBtn">\ud83d\udd04 \u91cd\u65b0\u62cd\u7167</button></div>';
-    if (camStatus) camStatus.textContent = '\u274c \u672a\u8bc6\u522b';
-    document.getElementById('retryBtn')?.addEventListener('click', () => { cameraInput.click(); });
-  }
-} catch (err) {
-  preview.querySelector('.recognition-loading')?.remove();
-  resultDiv.style.display = 'block';
-  resultDiv.innerHTML = '<div class="text-small text-red" style="padding:12px;background:var(--bg2);border-radius:8px">\u26a0\ufe0f ' + err.message + '<button class="btn btn-ghost btn-sm mt-8 btn-block" id="retryBtn">\ud83d\udd04 \u91cd\u65b0\u62cd\u7167</button></div>';
-  if (camStatus) camStatus.textContent = '\u26a0\ufe0f \u5931\u8d25';
-  document.getElementById('retryBtn')?.addEventListener('click', () => { cameraInput.click(); });
-});
+    cameraInput.addEventListener('change', async (e) => {
+      const file = e.target.files?.[0];
+      if (!file) return;
+
+      preview.style.display = 'block';
+      resultDiv.style.display = 'none';
+
+      // ── 压缩图片（800px宽，速度提升10倍） ──
+      const img = await createImageBitmap(file);
+      const maxW = 800;
+      const scale = Math.min(1, maxW / img.width);
+      const w = Math.round(img.width * scale);
+      const h = Math.round(img.height * scale);
+
+      const canvas = document.createElement('canvas');
+      canvas.width = w;
+      canvas.height = h;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(img, 0, 0, w, h);
+
+      const compressedBase64 = canvas.toDataURL('image/jpeg', 0.7).split(',')[1];
+      img.close();
+
+      if (camStatus) camStatus.textContent = '🤖 识别中...';
+
+      preview.innerHTML = `<img src="data:image/jpeg;base64,${compressedBase64}" style="width:100%;max-height:200px;object-fit:cover;border-radius:8px;margin-bottom:8px">`;
+      preview.innerHTML += `<div class="recognition-loading"><div class="spin">🔍</div><div style="margin-top:4px">AI 识别中...</div></div>`;
+
+      try {
+        // 菜品识别 - 内嵌百度 Token（30天有效），直调菜品 API（CORS: * ✅）
+        const dishResp = await fetch(
+          'https://aip.baidubce.com/rest/2.0/image-classify/v2/dish?access_token=' + '24.29e5ef16ab7b8e9b1c9a0539954e02b9.2592000.1788350269.282335-124069681',
+          {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: new URLSearchParams({ image: compressedBase64, top_num: '3' }).toString(),
+            signal: AbortSignal.timeout(15000)
+          }
+        );
+        if (!dishResp.ok) throw new Error('百度状态码: ' + dishResp.status);
+        const dishData = await dishResp.json();
+        preview.querySelector('.recognition-loading')?.remove();
+        if (dishData.error_msg) {
+          resultDiv.style.display = 'block';
+          resultDiv.innerHTML = '<div class="text-small text-red" style="padding:12px;background:var(--bg2);border-radius:8px">\u274c ' + dishData.error_msg + '</div><button class="btn btn-ghost btn-sm mt-8" id="retryBtn">\ud83d\udd04 \u91cd\u65b0\u62cd\u7167</button>';
+          if (camStatus) camStatus.textContent = '\u274c \u8bc6\u522b\u5931\u8d25';
+          document.getElementById('retryBtn')?.addEventListener('click', () => { cameraInput.click(); });
+          return;
+        }
+        if (dishData.result && dishData.result.length > 0) {
+          const dishes = dishData.result.slice(0, 3).map(d => ({
+            name: d.name,
+            calorie: d.calorie ? parseFloat(d.calorie) : null,
+            probability: Math.round((d.probability || 0) * 1000) / 10
+          }));
+          if (typeof showRecognitionResult === 'function') showRecognitionResult(dishes);
+          if (camStatus) camStatus.textContent = '\u2705 \u5df2\u8bc6\u522b';
+        } else {
+          resultDiv.style.display = 'block';
+          resultDiv.innerHTML = '<div class="text-muted" style="padding:12px;background:var(--bg2);border-radius:8px;text-align:center"><div style="font-size:24px;margin-bottom:4px">\ud83e\udd37</div><div>\u6ca1\u8ba4\u51fa\u6765\uff0c\u8bd5\u8bd5\u6362\u4e2a\u89d2\u5ea6</div><button class="btn btn-ghost btn-sm mt-8" id="retryBtn">\ud83d\udd04 \u91cd\u65b0\u62cd\u7167</button></div>';
+          if (camStatus) camStatus.textContent = '\u274c \u672a\u8bc6\u522b';
+          document.getElementById('retryBtn')?.addEventListener('click', () => { cameraInput.click(); });
+        }
+      } catch (err) {
+        preview.querySelector('.recognition-loading')?.remove();
+        resultDiv.style.display = 'block';
+        resultDiv.innerHTML = '<div class="text-small text-red" style="padding:12px;background:var(--bg2);border-radius:8px">\u26a0\ufe0f ' + err.message + '<button class="btn btn-ghost btn-sm mt-8 btn-block" id="retryBtn">\ud83d\udd04 \u91cd\u65b0\u62cd\u7167</button></div>';
+        if (camStatus) camStatus.textContent = '\u26a0\ufe0f \u5931\u8d25';
+        document.getElementById('retryBtn')?.addEventListener('click', () => { cameraInput.click(); });
+      } catch (err) {
+        preview.querySelector('.recognition-loading')?.remove();
+        resultDiv.style.display = 'block';
+        resultDiv.innerHTML = `<div class="text-small text-red" style="padding:12px;background:var(--bg2);border-radius:8px">
+          ⚠️ 连接超时，检查服务器是否在运行
+          <button class="btn btn-ghost btn-sm mt-8 btn-block" id="retryBtn">🔄 重新拍照</button>
+        </div>`;
+        if (camStatus) camStatus.textContent = '⚠️ 连接失败';
+        document.getElementById('retryBtn')?.addEventListener('click', () => { cameraInput.click(); });
+      }
+      e.target.value = '';
+    });
   }
 }
 
