@@ -787,53 +787,16 @@ function renderDiet() {
       preview.innerHTML += `<div class="recognition-loading"><div class="spin">🔍</div><div style="margin-top:4px">AI 识别中...</div></div>`;
 
       try {
-        // API 地址（按优先级尝试）
+        // 🌐 API 多路候选探测
         const apiCandidates = [
-    'https://baidu-direct',
-    'https://fitness-ai.believed-astrodon.workers.dev/recognize',
-    '/api/recognize',
-  ];
+          'https://fitness-ai.believed-astrodon.workers.dev/recognize',  // Worker (health check now tests Baidu)
+          '/api/recognize',                                              // Serverless (Vercel etc)
+        ];
         let apiBase = apiCandidates[0];
         let resp = null;
 
-        // 尝试每个候选 API，第一个成功就用
-        
-  // #1: direct Baidu API call from browser (CORS supported, fastest in China)
-  let handled = false;
-  {
-    try {
-      const t0 = Date.now();
-      const tokResp = await fetch(
-        'https://aip.baidubce.com/oauth/2.0/token?grant_type=client_credentials&client_id=gJ1pVvEcOf4pd4dHzKQa8BMQ&client_secret=yDJpvuI18Qwjj5iVP7J5rBjrnNnCayx3',
-        { method: 'POST', signal: AbortSignal.timeout(5000) }
-      );
-      const tok = await tokResp.json();
-      if (tok.access_token) {
-        const form = new URLSearchParams();
-        form.append('image', compressedBase64);
-        form.append('top_num', '3');
-        const dishResp = await fetch(
-          'https://aip.baidubce.com/rest/2.0/image-classify/v2/dish?access_token=' + tok.access_token,
-          { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-            body: form.toString(), signal: AbortSignal.timeout(15000) }
-        );
-        const dish = await dishResp.json();
-        if (dishResp.ok && dish.result && dish.result.length > 0) {
-          resp = { ok: true, json: async () => ({
-            success: true,
-            dishes: dish.result.slice(0, 3).map(d => ({
-              name: d.name,
-              calorie: d.calorie ? parseFloat(d.calorie) : null,
-              probability: Math.round((d.probability || 0) * 1000) / 10
-            }))
-          })};
-          handled = true;
-        }
-      }
-    } catch(e) { /* Baidu direct failed, try Worker and /api/ */ }
-  }
-  if (!handled) {
-for (const candidate of apiCandidates) {
+        // 探测可用的 API
+        for (const candidate of apiCandidates) {
           try {
             const testResp = await fetch(candidate === '/api/recognize'
               ? '/api/recognize'
@@ -842,14 +805,60 @@ for (const candidate of apiCandidates) {
               apiBase = candidate;
               break;
             }
-          } catch (e) { /* 继续尝试下一个 */ }
+          } catch (e) { /* try next */ }
         }
 
-        resp = await fetch(apiBase, { signal: AbortSignal.timeout(15000),
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ image: compressedBase64 })
-        });
+        // 如果 Worker 不可达（或 Worker 连不上百度），尝试浏览器直调百度
+        if (apiBase === apiCandidates[0] && apiBase !== '/api/recognize') {
+          try {
+            // 用 GET 获取百度 Token（简单请求，无 CORS 预检）
+            const tokResp = await fetch(
+              'https://aip.baidubce.com/oauth/2.0/token?grant_type=client_credentials&client_id=gJ1pVvEcOf4pd4dHzKQa8BMQ&client_secret=yDJpvuI18Qwjj5iVP7J5rBjrnNnCayx3',
+              { method: 'POST', signal: AbortSignal.timeout(8000) }
+            );
+            const tokData = await tokResp.json();
+            if (tokData.access_token) {
+              const formBody = new URLSearchParams();
+              formBody.append('image', compressedBase64);
+              formBody.append('top_num', '3');
+              const dishResp = await fetch(
+                'https://aip.baidubce.com/rest/2.0/image-classify/v2/dish?access_token=' + tokData.access_token,
+                {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                  body: formBody.toString(),
+                  signal: AbortSignal.timeout(15000)
+                }
+              );
+              if (dishResp.ok) {
+                const dishData = await dishResp.json();
+                if (dishData.result && dishData.result.length > 0) {
+                  resp = {
+                    ok: true,
+                    json: async () => ({
+                      success: true,
+                      dishes: dishData.result.slice(0, 3).map(d => ({
+                        name: d.name,
+                        calorie: d.calorie ? parseFloat(d.calorie) : null,
+                        probability: Math.round((d.probability || 0) * 1000) / 10
+                      }))
+                    })
+                  };
+                }
+              }
+            }
+          } catch (e) { /* direct Baidu failed */ }
+        }
+
+        // 如果 resp 还没赋值，走探测到的候选
+        if (!resp) {
+          resp = await fetch(apiBase, { signal: AbortSignal.timeout(15000),
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ image: compressedBase64 })
+          });
+        }
+
         const data = await resp.json();
 
         // 移除 loading
@@ -877,7 +886,7 @@ for (const candidate of apiCandidates) {
           if (camStatus) camStatus.textContent = '❌ 未识别';
           document.getElementById('retryBtn')?.addEventListener('click', () => { cameraInput.click(); });
         }
-      } catch (err) {
+} catch (err) {
         preview.querySelector('.recognition-loading')?.remove();
         resultDiv.style.display = 'block';
         resultDiv.innerHTML = `<div class="text-small text-red" style="padding:12px;background:var(--bg2);border-radius:8px">
@@ -1126,4 +1135,3 @@ function initApp() {
 document.readyState === 'loading'
   ? document.addEventListener('DOMContentLoaded', initApp)
   : initApp();
-  }
