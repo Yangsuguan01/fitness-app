@@ -789,14 +789,51 @@ function renderDiet() {
       try {
         // API 地址（按优先级尝试）
         const apiCandidates = [
-          'https://fitness-ai.believed-astrodon.workers.dev/recognize',  // Cloudflare Worker
-          '/api/recognize',                                           // 同域 Serverless (Vercel/Netlify)
-        ];
+    'https://baidu-direct',
+    'https://fitness-ai.believed-astrodon.workers.dev/recognize',
+    '/api/recognize',
+  ];
         let apiBase = apiCandidates[0];
         let resp = null;
 
         // 尝试每个候选 API，第一个成功就用
-        for (const candidate of apiCandidates) {
+        
+  // #1: direct Baidu API call from browser (CORS supported, fastest in China)
+  let handled = false;
+  {
+    try {
+      const t0 = Date.now();
+      const tokResp = await fetch(
+        'https://aip.baidubce.com/oauth/2.0/token?grant_type=client_credentials&client_id=gJ1pVvEcOf4pd4dHzKQa8BMQ&client_secret=yDJpvuI18Qwjj5iVP7J5rBjrnNnCayx3',
+        { method: 'POST', signal: AbortSignal.timeout(5000) }
+      );
+      const tok = await tokResp.json();
+      if (tok.access_token) {
+        const form = new URLSearchParams();
+        form.append('image', compressedBase64);
+        form.append('top_num', '3');
+        const dishResp = await fetch(
+          'https://aip.baidubce.com/rest/2.0/image-classify/v2/dish?access_token=' + tok.access_token,
+          { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: form.toString(), signal: AbortSignal.timeout(15000) }
+        );
+        const dish = await dishResp.json();
+        if (dishResp.ok && dish.result && dish.result.length > 0) {
+          resp = { ok: true, json: async () => ({
+            success: true,
+            dishes: dish.result.slice(0, 3).map(d => ({
+              name: d.name,
+              calorie: d.calorie ? parseFloat(d.calorie) : null,
+              probability: Math.round((d.probability || 0) * 1000) / 10
+            }))
+          })};
+          handled = true;
+        }
+      }
+    } catch(e) { /* Baidu direct failed, try Worker and /api/ */ }
+  }
+  if (!handled) {
+for (const candidate of apiCandidates) {
           try {
             const testResp = await fetch(candidate === '/api/recognize'
               ? '/api/recognize'
@@ -1089,3 +1126,4 @@ function initApp() {
 document.readyState === 'loading'
   ? document.addEventListener('DOMContentLoaded', initApp)
   : initApp();
+  }
