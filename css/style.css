@@ -61,8 +61,8 @@ html, body {
   min-height: var(--header-height);
 }
 .app-header h1 {
-  font-size: 20px;
-  font-weight: 700;
+  font-size: 24px;
+  font-weight: 800;
   background: linear-gradient(135deg, var(--accent), #0088cc);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -151,17 +151,17 @@ html, body {
   margin-bottom: 12px;
 }
 .card-title {
-  font-size: 16px;
-  font-weight: 600;
+  font-size: 18px;
+  font-weight: 700;
   display: flex;
   align-items: center;
   gap: 8px;
 }
 .card-title .emoji { font-size: 20px; }
 .card-subtitle {
-  font-size: 12px;
+  font-size: 14px;
   color: var(--text2);
-  margin-top: 2px;
+  margin-top: 4px;
 }
 
 /* ─── Buttons ─── */
@@ -218,7 +218,7 @@ html, body {
   background: rgba(0, 212, 170, 0.06);
 }
 .exercise-item .ex-name {
-  font-size: 15px;
+  font-size: 17px;
   font-weight: 600;
   display: flex;
   align-items: center;
@@ -228,20 +228,23 @@ html, body {
   font-size: 18px;
 }
 .exercise-item .ex-meta {
-  font-size: 12px;
-  color: var(--text2);
-  margin-top: 4px;
+  font-size: 14px;
+  color: var(--accent);
+  margin-top: 6px;
   display: flex;
-  gap: 12px;
+  gap: 16px;
   flex-wrap: wrap;
+  font-weight: 600;
 }
 .exercise-item .ex-note {
-  font-size: 12px;
-  color: var(--text3);
-  margin-top: 4px;
-  padding: 4px 8px;
-  background: rgba(255,255,255,0.03);
-  border-radius: 6px;
+  font-size: 14px;
+  color: var(--text2);
+  margin-top: 8px;
+  padding: 10px 12px;
+  background: var(--accent-dim);
+  border-left: 3px solid var(--accent);
+  border-radius: 0 8px 8px 0;
+  line-height: 1.5;
 }
 
 /* ─── Set Log Row ─── */
@@ -322,11 +325,11 @@ html, body {
   cursor: pointer;
 }
 .timer-bar .timer-display {
-  font-size: 24px;
+  font-size: 28px;
   font-weight: 700;
   color: var(--accent);
   font-variant-numeric: tabular-nums;
-  min-width: 60px;
+  min-width: 80px;
 }
 .timer-bar .timer-label {
   font-size: 12px;
@@ -572,9 +575,9 @@ html, body {
 /* ─── Chips / Tags ─── */
 .chip {
   display: inline-block;
-  padding: 2px 10px;
+  padding: 4px 12px;
   border-radius: var(--radius-full);
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 500;
 }
 .chip-accent { background: var(--accent-dim); color: var(--accent); }
