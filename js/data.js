@@ -5,46 +5,48 @@
 // ─── 五分化训练计划 ───
 const WORKOUT_PLAN = {
   "monday": {
-    "name": "背 + 后束 · 改善富贵包",
-    "workout": [
+    "title": "拉 · 背阔肌宽度",
+    "subtitle": "背阔肌 + 后束",
+    "emoji": "🏋",
+    "exercises": [
       {
         "name": "面拉 Face Pull",
         "sets": 4,
         "reps": "15",
-        "note": "后束+肩袖，改善驼背圆肩"
+        "note": "💡 后束+肩袖，改善驼背圆肩和富贵包"
       },
       {
         "name": "坐姿绳索划船（窄握）",
         "sets": 4,
         "reps": "12",
-        "note": "中上背"
+        "note": "💡 中上背，肩胛后收"
       },
       {
         "name": "宽握高位下拉",
         "sets": 4,
         "reps": "12",
-        "note": "背阔肌宽度"
+        "note": "💡 背阔肌宽度，拉到锁骨"
       },
       {
         "name": "哑铃单臂划船",
         "sets": 3,
-        "reps": "12/侧",
-        "note": ""
+        "reps": "10~12/侧",
+        "note": "💡 每侧单做，感受背阔肌收缩"
       },
       {
         "name": "反向飞鸟（坐姿）",
         "sets": 3,
         "reps": "15",
-        "note": "后束强化"
+        "note": "💡 后束强化，改善肩膀前扣"
       },
       {
-        "name": "收下巴 Chin Tuck",
+        "name": "🧚 收下巴 Chin Tuck",
         "sets": 3,
         "reps": "10（保持5秒）",
-        "note": "改善下巴前伸"
+        "note": "💡 改善下巴前伸+富贵包"
       },
       {
-        "name": "固定单车 20min",
+        "name": "🚴 固定单车 20min",
         "sets": 1,
         "reps": "低阻力",
         "note": "护足有氧"
@@ -52,19 +54,21 @@ const WORKOUT_PLAN = {
     ]
   },
   "tuesday": {
-    "name": "胸 + 三头",
-    "workout": [
+    "title": "胸 + 三头",
+    "subtitle": "🏃 全部躺姿/坐姿，护足",
+    "emoji": "🏋",
+    "exercises": [
       {
         "name": "哑铃平板卧推",
         "sets": 4,
-        "reps": "10-12",
-        "note": "替代坐姿推胸"
+        "reps": "10~12",
+        "note": "💡 替代坐姿推胸机"
       },
       {
         "name": "哑铃上斜卧推",
         "sets": 4,
-        "reps": "10-12",
-        "note": "上胸"
+        "reps": "10~12",
+        "note": "💡 上胸"
       },
       {
         "name": "坐姿夹胸 Pec Dec",
@@ -73,19 +77,19 @@ const WORKOUT_PLAN = {
         "note": ""
       },
       {
-        "name": "俯卧撑",
+        "name": "💪 俯卧撑",
         "sets": 3,
         "reps": "力竭",
-        "note": "地板撑，无足压力"
+        "note": "💡 地板撑，无足压力"
       },
       {
         "name": "仰卧三头臂屈伸",
         "sets": 3,
         "reps": "15",
-        "note": "躺在凳"
+        "note": "💡 躺在凳"
       },
       {
-        "name": "椭圆机 20min",
+        "name": "🏃 椭圆机 20min",
         "sets": 1,
         "reps": "中速",
         "note": ""
@@ -93,16 +97,18 @@ const WORKOUT_PLAN = {
     ]
   },
   "wednesday": {
-    "name": "肩 + 核心",
-    "workout": [
+    "title": "肩 + 核心",
+    "subtitle": "全坐姿，护足",
+    "emoji": "🏋",
+    "exercises": [
       {
-        "name": "坐姿哑铃推举",
+        "name": "坐姿哑铁推举",
         "sets": 4,
         "reps": "12",
-        "note": "替代站姿推举"
+        "note": "💡 替代站姿推举"
       },
       {
-        "name": "哑铃侧平举（坐姿）",
+        "name": "哑铁侧平举（坐姿）",
         "sets": 4,
         "reps": "15",
         "note": "中束"
@@ -134,13 +140,15 @@ const WORKOUT_PLAN = {
     ]
   },
   "thursday": {
-    "name": "腿 · 全坐姿（护滑膜炎）",
-    "workout": [
+    "title": "腿 · 全坐姿（护滑膜炎）",
+    "subtitle": "全部坐姿器械，足部零压力",
+    "emoji": "🏃",
+    "exercises": [
       {
         "name": "坐姿腿举",
         "sets": 4,
-        "reps": "12-15",
-        "note": "替代深蹲"
+        "reps": "12~15",
+        "note": "替代深蹱"
       },
       {
         "name": "坐姿腿屈伸",
@@ -155,7 +163,7 @@ const WORKOUT_PLAN = {
         "note": "股二头"
       },
       {
-        "name": "坐姿提踵",
+        "name": "坐姿提踞",
         "sets": 3,
         "reps": "20",
         "note": "轻重量，慢放"
@@ -169,22 +177,24 @@ const WORKOUT_PLAN = {
     ]
   },
   "friday": {
-    "name": "综合体能 · 耐力燃脂",
-    "workout": [
+    "title": "综合体能 · 耐力燃脂",
+    "subtitle": "超级组，不休息，间歇有氧",
+    "emoji": "⚡",
+    "exercises": [
       {
-        "name": "超级组：坐姿划船+哑铃卧推",
+        "name": "超级组1：坐姿划船+哑铁卧推",
         "sets": 3,
         "reps": "12+12",
         "note": "背+胸，不休息"
       },
       {
-        "name": "超级组：面拉+坐姿推举",
+        "name": "超级组2：面拉+坐姿推举",
         "sets": 3,
         "reps": "15+12",
         "note": "后束+肩"
       },
       {
-        "name": "超级组：腿屈伸+卷腹",
+        "name": "超级组3：腿屈伸+卷腹",
         "sets": 3,
         "reps": "15+20",
         "note": "腿+核心"
@@ -198,14 +208,20 @@ const WORKOUT_PLAN = {
     ]
   },
   "saturday": {
-    "name": "休息",
-    "workout": []
+    "title": "休息",
+    "subtitle": "好好恢复",
+    "emoji": "😴",
+    "exercises": []
   },
   "sunday": {
-    "name": "休息",
-    "workout": []
+    "title": "休息",
+    "subtitle": "周末愉快",
+    "emoji": "😎",
+    "exercises": []
   }
 };
+
+;
 
 ;
 
