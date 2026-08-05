@@ -1,12 +1,13 @@
-const CACHE_NAME = 'fitness-app-v3';
+const BASE = self.location.pathname.replace(/sw\.js$/, '');
+const CACHE_NAME = 'fitness-app-v6';
 const ASSETS = [
   '/',
-  '/index.html',
-  '/css/style.css',
-  '/js/app.js',
-  '/js/data.js',
-  '/icons/icon.svg',
-  '/manifest.json'
+  BASE + 'index.html',
+  BASE + 'css/style.css',
+  BASE + 'js/app.js',
+  BASE + 'js/data.js',
+  BASE + 'icons/icon.svg',
+  BASE + 'manifest.json'
 ];
 
 // 安装：预缓存静态资源
@@ -38,7 +39,7 @@ self.addEventListener('fetch', (event) => {
   const url = new URL(event.request.url);
 
   // API / Worker 请求不缓存，离线时返回友好提示
-  if (url.pathname.startsWith('/api/')) {
+  if (url.pathname.includes('/api/')) {
     event.respondWith(
       fetch(event.request).catch(() => {
         return new Response(JSON.stringify({ error: '离线状态下无法识别，请连网后重试' }), {
