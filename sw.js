@@ -1,5 +1,5 @@
 const BASE = self.location.pathname.replace(/sw\.js$/, '');
-const CACHE_NAME = 'fitness-app-v6';
+const CACHE_NAME = 'fitness-app-v7';
 const ASSETS = [
   '/',
   BASE + 'index.html',
@@ -24,15 +24,11 @@ self.addEventListener('install', (event) => {
 self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches.keys().then((keys) => {
-      return Promise.all(
-        keys
-          .filter((key) => key !== CACHE_NAME)
-          .map((key) => caches.delete(key))
-      );
-    })
+      // Delete ALL caches to force fresh load
+      return Promise.all(keys.map((key) => caches.delete(key)));
+    }).then(() => self.clients.claim())
   );
-  self.clients.claim();
-});
+}););
 
 // 请求拦截：静态资源走缓存优先，API 请求走网络优先
 self.addEventListener('fetch', (event) => {
