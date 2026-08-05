@@ -42,6 +42,8 @@
   ]
 },
 ,
+,
+,
 ;
 
 const DAY_KEYS = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday'];
