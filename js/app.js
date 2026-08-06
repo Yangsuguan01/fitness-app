@@ -1064,7 +1064,8 @@ function getNextWorkoutPreview() {
 function initApp() {
   // 注册 Service Worker
   if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('/sw.js').catch(() => {});
+    // SW disabled temporarily
+  // navigator.serviceWorker.register('/sw.js').catch(() => {});
   }
 
   // Tab 事件
