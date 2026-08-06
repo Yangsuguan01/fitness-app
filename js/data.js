@@ -15,32 +15,32 @@ const WORKOUT_PLAN = {
   monday: {
     day: 1,
     title: '拉 · 背阔肌宽度',
-    subtitle: '背阔肌 + 后束 · 沉肩不耸肩',
+    subtitle: '背阔肌 + 后束 · 全程沉肩不耸肩',
     emoji: '🏋️',
     exercises: [
-      { name: '面拉 Face Pull（斜方热身）', sets: 2, repsMin: 15, repsMax: 15, rest: '30s', note: '激活下斜方+肩袖，不耸肩' },
-      { name: 'Y-T-W-L 伸展（斜方热身）', sets: 2, repsMin: 8, repsMax: 10, rest: '30s', note: '强化下斜方平衡上斜方' },
-      { name: '宽握高位下拉', sets: 4, repsMin: 8, repsMax: 12, rest: '60s', note: '主攻背宽，拉到锁骨位，肘朝下夹，不耸肩' },
-      { name: '坐姿绳索划船（宽握把）', sets: 4, repsMin: 10, repsMax: 12, rest: '60s', note: '背阔肌中下部，肩胛后收' },
-      { name: '哑铃单臂划船', sets: 3, repsMin: 10, repsMax: 12, rest: '60s', note: '每侧单做，感受背阔肌收缩' },
-      { name: '面拉 Face Pull', sets: 3, repsMin: 15, repsMax: 15, rest: '45s', note: '后束+肩袖健康' },
-      { name: '山羊挺身', sets: 3, repsMin: 12, repsMax: 12, rest: '45s', note: '下背竖脊肌' },
-      { name: '上斜方拉伸（收尾）', sets: 2, repsMin: 20, repsMax: 30, rest: '-', note: '耳朵靠肩20秒→转头看腋下→换侧' }
+      { name: '面拉 Face Pull（热身）', sets: 2, repsMin: 15, repsMax: 15, rest: '30s', note: '激活下斜方+肩袖，正式组前必做' },
+      { name: 'Y-T-W-L 伸展（热身）', sets: 2, repsMin: 8, repsMax: 10, rest: '30s', note: '趴地面做Y→T→W→L四个动作，强化下斜方' },
+      { name: '宽握高位下拉', sets: 4, repsMin: 8, repsMax: 12, rest: '60s', note: '主攻背宽，拉到锁骨位，肘朝下夹，肩胛下沉' },
+      { name: '坐姿绳索划船（宽握把）', sets: 4, repsMin: 10, repsMax: 12, rest: '60s', note: '背阔肌中下部，肩胛后收，不耸肩借力' },
+      { name: '哑铃单臂划船', sets: 3, repsMin: 10, repsMax: 12, rest: '60s', note: '每侧单做，感受背阔肌收缩，空手扶凳保持稳定' },
+      { name: '面拉 Face Pull（正式）', sets: 3, repsMin: 15, repsMax: 15, rest: '45s', note: '后束+肩袖，改善圆肩富贵包的关键动作' },
+      { name: '山羊挺身', sets: 3, repsMin: 12, repsMax: 12, rest: '45s', note: '下背竖脊肌，腰不要过度伸展' },
+      { name: '上斜方拉伸（收尾）', sets: 2, repsMin: 20, repsMax: 30, rest: '-', note: '耳朵靠肩保持20秒→转头看腋下→换侧，每天必做' }
     ]
   },
   tuesday: {
     day: 2,
-    title: '推 · 胸 + 肩前中束',
+    title: '推 · 胸 + 前中束',
     subtitle: '胸大肌 + 三角肌前中束 + 三头',
     emoji: '💪',
     exercises: [
-      { name: '面拉 Face Pull（斜方热身）', sets: 2, repsMin: 15, repsMax: 15, rest: '30s', note: '激活下斜方+肩袖，不耸肩' },
-      { name: 'Y-T-W-L 伸展（斜方热身）', sets: 2, repsMin: 8, repsMax: 10, rest: '30s', note: '强化下斜方平衡上斜方' },
-      { name: '哑铃/杠铃平板卧推', sets: 4, repsMin: 8, repsMax: 12, rest: '60s', note: '胸大肌主体' },
-      { name: '上斜哑铃卧推', sets: 3, repsMin: 10, repsMax: 12, rest: '60s', note: '上胸' },
-      { name: '哑铃飞鸟（平板）', sets: 3, repsMin: 12, repsMax: 15, rest: '45s', note: '替代坐姿推胸器械，胸中缝' },
-      { name: '哑铃侧平举', sets: 3, repsMin: 12, repsMax: 15, rest: '45s', note: '三角肌中束，肩宽显腰窄，沉肩做' },
-      { name: '绳索下压（三头）', sets: 3, repsMin: 12, repsMax: 15, rest: '45s', note: '三头收尾' },
+      { name: '面拉 Face Pull（热身）', sets: 2, repsMin: 15, repsMax: 15, rest: '30s', note: '激活下斜方+肩袖，推胸前必做' },
+      { name: 'Y-T-W-L 伸展（热身）', sets: 2, repsMin: 8, repsMax: 10, rest: '30s', note: '趴地面做，强化下斜方平衡上斜方' },
+      { name: '哑铃平板卧推', sets: 4, repsMin: 8, repsMax: 12, rest: '60s', note: '胸大肌主体，肩胛后收贴凳' },
+      { name: '上斜哑铃卧推', sets: 3, repsMin: 10, repsMax: 12, rest: '60s', note: '上胸，凳子调30度' },
+      { name: '哑铃飞鸟（平板）', sets: 3, repsMin: 12, repsMax: 15, rest: '45s', note: '胸中缝，手肘微弯，感受胸部拉伸' },
+      { name: '哑铃侧平举', sets: 3, repsMin: 12, repsMax: 15, rest: '45s', note: '中束，沉肩做，不借力耸肩' },
+      { name: '绳索下压（三头）', sets: 3, repsMin: 12, repsMax: 15, rest: '45s', note: '三头收尾，肘夹紧不动' },
       { name: '上斜方拉伸（收尾）', sets: 2, repsMin: 20, repsMax: 30, rest: '-', note: '耳朵靠肩20秒→转头看腋下→换侧' }
     ]
   },
@@ -51,44 +51,43 @@ const WORKOUT_PLAN = {
     emoji: '🦵',
     exercises: [
       { name: '🪑 坐姿椅子起立（代替腿举）', sets: 4, repsMin: 12, repsMax: 15, rest: '90s', note: '慢起3秒→慢坐3秒，不扶不借手，抱水桶/背包负重' },
-      { name: '🦵 坐姿徒手伸腿（代替腿屈伸）', sets: 3, repsMin: 15, repsMax: 15, rest: '60s', note: '坐椅子前沿，单腿缓慢伸直到水平停1秒慢放' },
+      { name: '🦵 坐姿徒手伸腿（代替腿屈伸）', sets: 3, repsMin: 15, repsMax: 15, rest: '60s', note: '坐椅子前沿，单腿缓慢伸直到水平停1秒慢放，交替做' },
       { name: '😴 俯卧屈膝勾腿（代替腿弯举）', sets: 3, repsMin: 15, repsMax: 15, rest: '60s', note: '趴垫子上小腿弯向臀部，顶峰收缩1秒慢放' },
-      { name: '💪 平板支撑', sets: 4, repsMin: 30, repsMax: 45, rest: '30s', note: '核心稳定，单位秒' },
-      { name: '⬆️ 仰卧抬腿', sets: 3, repsMin: 15, repsMax: 15, rest: '45s', note: '下腹，腰部贴地' }
+      { name: '💪 平板支撑', sets: 4, repsMin: 30, repsMax: 45, rest: '30s', note: '核心稳定，臀不抬不塌腰，单位秒' },
+      { name: '⬆️ 仰卧抬腿', sets: 3, repsMin: 15, repsMax: 15, rest: '45s', note: '下腹发力，腰部贴地，腿慢起慢落' }
     ]
   },
   thursday: {
     day: 4,
     title: '肩 + 下斜方强化',
-    subtitle: '弱化上斜方 · 沉肩训练',
+    subtitle: '弱化上斜方 · 沉肩训练为主',
     emoji: '💪',
     exercises: [
-      { name: '面拉 Face Pull（斜方热身）', sets: 2, repsMin: 15, repsMax: 15, rest: '30s', note: '激活下斜方+肩袖，不耸肩' },
-      { name: 'Y-T-W-L 伸展（斜方热身）', sets: 2, repsMin: 8, repsMax: 10, rest: '30s', note: '强化下斜方平衡上斜方' },
-      { name: '哑铃推举（坐姿·轻重量）', sets: 3, repsMin: 12, repsMax: 15, rest: '60s', note: '⛔ 不耸肩，肩胛下沉固定，轻重量高次数' },
-      { name: '面拉 Face Pull（高次数）', sets: 4, repsMin: 15, repsMax: 20, rest: '45s', note: '下斜方+肩袖，改善圆肩，关键动作' },
-      { name: '哑铃侧平举（坐姿）', sets: 4, repsMin: 12, repsMax: 15, rest: '45s', note: '中束，不借力耸肩' },
-      { name: 'Y-T-W-L 伸展', sets: 3, repsMin: 10, repsMax: 12, rest: '45s', note: '趴上斜凳/地面做，强化下斜方' },
-      { name: '杠铃弯举（二头）', sets: 3, repsMin: 10, repsMax: 12, rest: '60s', note: '二头' },
-      { name: '绳索下压（三头）', sets: 3, repsMin: 12, repsMax: 15, rest: '45s', note: '三头' },
-      { name: '上斜方拉伸（收尾）', sets: 2, repsMin: 20, repsMax: 30, rest: '-', note: '耳朵靠肩20秒→转头看腋下→换侧' }
+      { name: '面拉 Face Pull（热身）', sets: 2, repsMin: 15, repsMax: 15, rest: '30s', note: '激活下斜方+肩袖' },
+      { name: 'Y-T-W-L 伸展（热身）', sets: 2, repsMin: 8, repsMax: 10, rest: '30s', note: '趴地面做，强化下斜方' },
+      { name: '哑铃推举（坐姿·轻重量）', sets: 3, repsMin: 12, repsMax: 15, rest: '60s', note: '⛔ 不耸肩！肩胛下沉固定，宁可轻不要借力' },
+      { name: '哑铃侧平举（坐姿）', sets: 4, repsMin: 12, repsMax: 15, rest: '45s', note: '中束，沉肩做，肘微弯领先小臂' },
+      { name: '面拉 Face Pull（正式·高次数）', sets: 4, repsMin: 15, repsMax: 20, rest: '45s', note: '下斜方+肩袖核心动作，改善圆肩富贵包' },
+      { name: '反向飞鸟（坐姿·哑铃）', sets: 3, repsMin: 12, repsMax: 15, rest: '45s', note: '后束，俯身45度，沉肩后束发力' },
+      { name: '杠铃弯举（二头）', sets: 3, repsMin: 10, repsMax: 12, rest: '60s', note: '二头，肘夹紧不动' },
+      { name: '绳索下压（三头）', sets: 3, repsMin: 12, repsMax: 15, rest: '45s', note: '三头收尾' },
+      { name: '上斜方拉伸（收尾）', sets: 2, repsMin: 20, repsMax: 30, rest: '-', note: '耳朵靠肩20秒→转头看腋下→换侧，每天必做' }
     ]
   },
   friday: {
     day: 5,
     title: '🏀 球赛日 · 轻训 + 实战',
-    subtitle: '早上轻量上肢，下午球赛 = 有氧+耐力',
+    subtitle: '早上轻量激活，下午球赛 = 有氧+耐力',
     emoji: '🏀',
     exercises: [
-      { name: '面拉 Face Pull（斜方热身）', sets: 2, repsMin: 15, repsMax: 15, rest: '30s', note: '激活下斜方+肩袖，不耸肩' },
-      { name: 'Y-T-W-L 伸展（斜方热身）', sets: 2, repsMin: 8, repsMax: 10, rest: '30s', note: '强化下斜方平衡上斜方' },
-      { name: '哑铃推举（坐姿）', sets: 3, repsMin: 8, repsMax: 10, rest: '60s', note: '肩部激活，不用力竭' },
+      { name: '面拉 Face Pull（热身）', sets: 2, repsMin: 15, repsMax: 15, rest: '30s', note: '肩袖预热，防受伤' },
+      { name: 'Y-T-W-L 伸展（热身）', sets: 2, repsMin: 8, repsMax: 10, rest: '30s', note: '激活下斜方' },
+      { name: '哑铃推举（坐姿）', sets: 3, repsMin: 8, repsMax: 10, rest: '60s', note: '肩部激活，不用力竭，保留体力' },
       { name: '哑铃侧平举', sets: 3, repsMin: 10, repsMax: 12, rest: '45s', note: '中束激活' },
-      { name: '面拉 Face Pull', sets: 2, repsMin: 12, repsMax: 15, rest: '45s', note: '肩袖预热' },
-      { name: '农夫行走', sets: 2, repsMin: 30, repsMax: 40, rest: '-', note: '单位秒，握力+核心' },
+      { name: '农夫行走', sets: 2, repsMin: 30, repsMax: 40, rest: '-', note: '单位秒，握力+核心，提重物走' },
       { name: '上斜方拉伸（收尾）', sets: 2, repsMin: 20, repsMax: 30, rest: '-', note: '耳朵靠肩20秒→转头看腋下→换侧' }
     ],
-    circuitNote: '早上40min轻训即可，保留体力打下午球赛。🏀 球赛就是最好的体能训练！'
+    circuitNote: '早上30min轻训激活即可，保留体力打下午球赛。🏀 球赛就是最好的体能+燃脂训练！'
   }
 };
 
