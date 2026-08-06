@@ -44,19 +44,22 @@ const WORKOUT_PLAN = {
       { name: '上斜方拉伸（收尾）', sets: 2, repsMin: 20, repsMax: 30, rest: '-', note: '耳朵靠肩20秒→转头看腋下→换侧' }
     ]
   },
-  wednesday: {
+    wednesday: {
     day: 3,
-    title: '腿 · 居家（护滑膜炎）',
-    subtitle: '🪑 全坐姿/卧姿，零足压，无需器械',
+    title: '腿 · 健身房（无腿举机）',
+    subtitle: '🦵 全坐姿/卧姿器械 · 零足压 · 代替腿举机方案',
     emoji: '🦵',
     exercises: [
-      { name: '🪑 坐姿椅子起立（代替腿举）', sets: 4, repsMin: 12, repsMax: 15, rest: '90s', note: '慢起3秒→慢坐3秒，不扶不借手，抱水桶/背包负重' },
-      { name: '🦵 坐姿徒手伸腿（代替腿屈伸）', sets: 3, repsMin: 15, repsMax: 15, rest: '60s', note: '坐椅子前沿，单腿缓慢伸直到水平停1秒慢放，交替做' },
-      { name: '😴 俯卧屈膝勾腿（代替腿弯举）', sets: 3, repsMin: 15, repsMax: 15, rest: '60s', note: '趴垫子上小腿弯向臀部，顶峰收缩1秒慢放' },
-      { name: '💪 平板支撑', sets: 4, repsMin: 30, repsMax: 45, rest: '30s', note: '核心稳定，臀不抬不塌腰，单位秒' },
-      { name: '⬆️ 仰卧抬腿', sets: 3, repsMin: 15, repsMax: 15, rest: '45s', note: '下腹发力，腰部贴地，腿慢起慢落' }
+      { name: '坐姿腿屈伸（代替腿举·股四头）', sets: 4, repsMin: 12, repsMax: 15, rest: '60s', note: '股四头肌，坐姿无足压，控制慢放' },
+      { name: '坐姿髋外展（代替腿举·臀大肌）', sets: 3, repsMin: 15, repsMax: 15, rest: '45s', note: '臀大肌+髋外展，坐姿器械，顶峰收缩' },
+      { name: '俯卧腿弯举（股二头）', sets: 4, repsMin: 12, repsMax: 15, rest: '60s', note: '大腿后侧，趴姿脚部无压力' },
+      { name: '坐姿髋内收（大腿内侧）', sets: 3, repsMin: 15, repsMax: 15, rest: '45s', note: '内收肌群，提高腿部整体力量' },
+      { name: '坐姿提踵（小腿）', sets: 3, repsMin: 20, repsMax: 20, rest: '45s', note: '轻重量慢放，坐姿无足压' },
+      { name: '平板支撑', sets: 4, repsMin: 30, repsMax: 45, rest: '30s', note: '核心，单位秒' },
+      { name: '仰卧抬腿', sets: 3, repsMin: 15, repsMax: 15, rest: '45s', note: '下腹，腰部贴地' }
     ]
-  },
+  }
+,
   thursday: {
     day: 4,
     title: '肩 + 下斜方强化',
