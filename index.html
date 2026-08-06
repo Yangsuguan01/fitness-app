@@ -12,7 +12,13 @@
   <title>健身助手 · 五分化训练</title>
   <link rel="stylesheet" href="css/style.css">
 </head>
-<body>
+<body><div id="__err" style="position:fixed;top:0;left:0;right:0;z-index:9999;background:red;color:white;padding:8px;font-size:12px;display:none;white-space:pre-wrap"></div>
+<script>
+window.onerror = function(m,s,l,c,e) {
+  var d = document.getElementById('__err');
+  if (d) { d.style.display='block'; d.textContent = m + ' [' + (s||'').split('/').pop() + ':' + l + ':' + c + '] ' + (e&&e.stack?e.stack.split('\n')[1]:''); }
+};
+</script>
   <div class="app-shell">
     <header class="app-header">
       <h1>今日训练</h1>
