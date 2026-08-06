@@ -1,5 +1,5 @@
 const BASE = self.location.pathname.replace(/sw\.js$/, '');
-const CACHE_NAME = 'fitness-app-v8';
+const CACHE_NAME = 'fitness-app-v9';
 const ASSETS = [
   '/',
   BASE + 'index.html',
