@@ -56,6 +56,21 @@ const WORKOUT_PLAN = {
   },
   thursday: {
     day: 4,
+    title: '肩 + 下斜方强化（弱化上斜方）',
+    subtitle: '🎯 减少推举重量，增加面拉+Y-T-W-L，放松上斜方',
+    emoji: '🏋️',
+    exercises: [
+      { name: '哑铃推举（坐姿·轻重量）', sets: 3, repsMin: 12, repsMax: 15, note: '⛔ 不要耸肩，肩胛下沉固定', rest: '60s' },
+      { name: '面拉 Face Pull（高次数）', sets: 4, repsMin: 15, repsMax: 20, note: '🎯 下斜方+肩袖，改善圆肩，关键动作', rest: '45s' },
+      { name: '哑铃侧平举（坐姿）', sets: 4, repsMin: 12, repsMax: 15, note: '中束，肩宽关键，不要借力耸肩', rest: '45s' },
+      { name: 'Y-T-W-L 伸展', sets: 3, repsMin: 10, repsMax: 12, note: '🎯 趴在上斜凳/地面做，强化下斜方，平衡上斜方', rest: '45s' },
+      { name: '杠铃弯举（二头）', sets: 3, repsMin: 10, repsMax: 12, note: '二头', rest: '60s' },
+      { name: '窄距卧推或绳索下压', sets: 3, repsMin: 10, repsMax: 12, note: '三头', rest: '60s' }
+    ],
+    trapNotes: '⚠️ 斜方肿大对策：①所有推拉动作意念沉肩 ②面拉用高次数激活下斜方 ③每天做上斜方拉伸（耳朵靠肩+转头） ④不要耸肩借力'
+  },
+  thursday: {
+    day: 4,
     title: '肩 + 手臂',
     subtitle: '三角肌 + 二头 + 三头',
     emoji: '💪',
@@ -84,21 +99,7 @@ const WORKOUT_PLAN = {
   }
 };
 
-const DAY_KEYS = ['monday', 'tuesday', 'wednesday',   thursday: {
-    day: 4,
-    title: '肩 + 下斜方强化（弱化上斜方）',
-    subtitle: '🎯 减少推举重量，增加面拉+Y-T-W-L，放松上斜方',
-    emoji: '🏋️',
-    exercises: [
-      { name: '哑铃推举（坐姿·轻重量）', sets: 3, repsMin: 12, repsMax: 15, note: '⛔ 不要耸肩，肩胛下沉固定', rest: '60s' },
-      { name: '面拉 Face Pull（高次数）', sets: 4, repsMin: 15, repsMax: 20, note: '🎯 下斜方+肩袖，改善圆肩，关键动作', rest: '45s' },
-      { name: '哑铃侧平举（坐姿）', sets: 4, repsMin: 12, repsMax: 15, note: '中束，肩宽关键，不要借力耸肩', rest: '45s' },
-      { name: 'Y-T-W-L 伸展', sets: 3, repsMin: 10, repsMax: 12, note: '🎯 趴在上斜凳/地面做，强化下斜方，平衡上斜方', rest: '45s' },
-      { name: '杠铃弯举（二头）', sets: 3, repsMin: 10, repsMax: 12, note: '二头', rest: '60s' },
-      { name: '窄距卧推或绳索下压', sets: 3, repsMin: 10, repsMax: 12, note: '三头', rest: '60s' }
-    ],
-    trapNotes: '⚠️ 斜方肿大对策：①所有推拉动作意念沉肩 ②面拉用高次数激活下斜方 ③每天做上斜方拉伸（耳朵靠肩+转头） ④不要耸肩借力'
-  }
+const DAY_KEYS = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday'];
 ;
 const DAY_KEYS_CYCLE = ['friday', 'monday', 'tuesday', 'wednesday', 'thursday']; // Friday links back to Monday
 
