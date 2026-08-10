@@ -10,23 +10,22 @@
   <link rel="icon" type="image/svg+xml" href="icons/icon.svg">
   <link rel="manifest" href="manifest.json">
   <title>健身助手 · 五分化训练</title>
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/style.css?v=20260810-shoulder-friday">
 </head>
-<body><div id="__err" style="position:fixed;top:0;left:0;right:0;z-index:9999;background:red;color:white;padding:8px;font-size:12px;display:none;white-space:pre-wrap"></div>
-<script>
-window.onerror = function(m,s,l,c,e) {
-  var d = document.getElementById('__err');
-  if (d) { d.style.display='block'; d.textContent = m + ' [' + (s||'').split('/').pop() + ':' + l + ':' + c + '] ' + (e&&e.stack?e.stack.split('\n')[1]:''); }
-};
-</script>
+<body>
   <div class="app-shell">
+    <!-- Header -->
     <header class="app-header">
       <h1>今日训练</h1>
       <div class="header-right">
         <button class="header-btn" id="settingsBtn" title="设置">⚙️</button>
       </div>
     </header>
+
+    <!-- Content -->
     <main class="app-content" id="appContent"></main>
+
+    <!-- Tab Bar -->
     <nav class="app-tabs">
       <button class="tab-btn active" data-tab="today">
         <span class="tab-icon">🏠</span>
@@ -50,7 +49,8 @@ window.onerror = function(m,s,l,c,e) {
       </button>
     </nav>
   </div>
-  <script src="js/data.js?v=1785998492161"></script>
-  <script src="js/app.js?v=1785998492161"></script>
+
+  <script src="js/data.js?v=20260810-shoulder-friday"></script>
+  <script src="js/app.js?v=20260810-shoulder-friday"></script>
 </body>
 </html>
