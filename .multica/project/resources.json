@@ -1,0 +1,16 @@
+{
+  "project_id": "40a3d641-ce01-4fbd-82a4-2c5aab12e9e1",
+  "project_title": "fitness-app",
+  "project_description": "Local project imported from D:\\project\\fitness-app",
+  "resources": [
+    {
+      "id": "7555d6df-ff6d-4dad-9a1e-2742daa58013",
+      "resource_type": "local_directory",
+      "resource_ref": {
+        "daemon_id": "019fda31-b09c-7831-b463-3e4013fc03d5",
+        "local_path": "D:\\project\\fitness-app"
+      },
+      "label": "fitness-app"
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+name = "fitness-ai"
+main = "src/index.js"
+compatibility_date = "2024-01-01"
+
+[vars]
+BAIDU_API_KEY = "gJ1pVvEcOf4pd4dHzKQa8BMQ"
+BAIDU_SECRET_KEY = "yDJpvuI18Qwjj5iVP7J5rBjrnNnCayx3"
