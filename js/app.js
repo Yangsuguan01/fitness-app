@@ -1064,8 +1064,16 @@ function getNextWorkoutPreview() {
 function initApp() {
   // 注册 Service Worker
   if ('serviceWorker' in navigator) {
-    // SW disabled temporarily
-  // navigator.serviceWorker.register('/sw.js').catch(() => {});
+    navigator.serviceWorker.register('/sw.js?v=20260810-shoulder-friday').then(reg => {
+      reg.update();
+    }).catch(() => {});
+
+    let refreshing = false;
+    navigator.serviceWorker.addEventListener('controllerchange', () => {
+      if (refreshing) return;
+      refreshing = true;
+      window.location.reload();
+    });
   }
 
   // Tab 事件
