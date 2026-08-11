@@ -789,8 +789,10 @@ function renderDiet() {
       try {
         // API 地址（按优先级尝试）
         const apiCandidates = [
-          'https://fitness-ai.purple-ornament.workers.dev/recognize',  // Cloudflare Worker
-          '/api/recognize',                                           // 同域 Serverless (Vercel/Netlify)
+          'https://fitness-ai.believed-astrodon.workers.dev/recognize',                                    // Cloudflare Worker
+          '/fitness-app/api/recognize',                              // GitHub Pages (direct Baidu call via Worker)
+          'https://fitness-ai.believed-astrodon.workers.dev/recognize',  // Cloudflare Worker
+                                                     // 同域 Serverless (Vercel/Netlify)
         ];
         let apiBase = apiCandidates[0];
         let resp = null;
@@ -1064,7 +1066,7 @@ function getNextWorkoutPreview() {
 function initApp() {
   // 注册 Service Worker
   if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('sw.js?v=20260811-no-db-press-v2').then(reg => {
+    navigator.serviceWorker.register('sw.js?v=20260810-shoulder-friday-gh').then(reg => {
       reg.update();
     }).catch(() => {});
 
