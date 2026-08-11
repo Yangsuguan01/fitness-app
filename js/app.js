@@ -19,6 +19,80 @@ const $$ = s => document.querySelectorAll(s);
 const content = () => $('.app-content');
 const headerTitle = () => $('.app-header h1');
 
+const EXERCISE_DIAGRAM_RULES = [
+  ['Face Pull', 'face-pull'],
+  ['Y-T-W-L', 'ytwl'],
+  ['引体', 'pull-up'],
+  ['高位下拉', 'lat-pulldown'],
+  ['坐姿绳索划船', 'row'],
+  ['坐姿划船', 'row'],
+  ['单臂划船', 'one-arm-row'],
+  ['单臂哑铃划船', 'one-arm-row'],
+  ['反向蝴蝶', 'reverse-fly'],
+  ['反向飞鸟', 'reverse-fly'],
+  ['侧平举', 'lateral-raise'],
+  ['前平举', 'front-raise'],
+  ['绳索下压', 'triceps-pushdown'],
+  ['过顶臂屈伸', 'overhead-extension'],
+  ['凳上反屈伸', 'triceps-pushdown'],
+  ['高脚杯深蹲', 'squat'],
+  ['腿举', 'squat'],
+  ['罗马尼亚硬拉', 'rdl'],
+  ['保加利亚', 'split-squat'],
+  ['箭步蹲', 'split-squat'],
+  ['腿弯举', 'leg-curl'],
+  ['提踵', 'calf-raise'],
+  ['平板支撑', 'core'],
+  ['死虫', 'core'],
+  ['杠铃弯举', 'curl'],
+  ['绳索弯举', 'curl'],
+  ['牧师', 'preacher-curl'],
+  ['锤式', 'hammer-curl'],
+  ['蝴蝶机夹胸', 'chest-fly'],
+  ['夹胸', 'chest-fly'],
+  ['拉伸', 'stretch'],
+  ['热身', 'stretch'],
+];
+
+function getExerciseDiagramKey(name = '') {
+  const matched = EXERCISE_DIAGRAM_RULES.find(([needle]) => name.includes(needle));
+  return matched ? matched[1] : 'generic';
+}
+
+function renderExerciseDiagram(name = '', className = '') {
+  const key = getExerciseDiagramKey(name);
+  const labels = {
+    'pull-up': '向上拉', 'lat-pulldown': '下拉', 'row': '后拉', 'one-arm-row': '单臂拉',
+    'reverse-fly': '后展', 'lateral-raise': '侧平举', 'front-raise': '前平举',
+    'triceps-pushdown': '下压', 'overhead-extension': '过顶伸', 'squat': '下蹲',
+    'rdl': '髋铰链', 'split-squat': '分腿蹲', 'leg-curl': '腿弯举', 'calf-raise': '提踵',
+    'core': '核心', 'curl': '弯举', 'preacher-curl': '弯举', 'hammer-curl': '锤式',
+    'chest-fly': '夹胸', 'stretch': '拉伸', 'face-pull': '面拉', 'ytwl': '肩胛激活',
+  };
+  const motion = labels[key] || '动作';
+  return `
+    <div class="ex-diagram ${className}" aria-label="${name}动作示意图">
+      <svg viewBox="0 0 260 150" role="img">
+        <rect x="4" y="4" width="252" height="142" rx="12" class="exd-bg"></rect>
+        <path d="M18 132H242" class="exd-line muted"></path>
+        <circle cx="130" cy="52" r="10" class="exd-line"></circle>
+        <path d="M130 63v48M104 74h52M130 111l-22 29M130 111l22 29" class="exd-line"></path>
+        <path d="${getExerciseMotionPath(key)}" class="exd-motion"></path>
+        <text x="130" y="25" text-anchor="middle" class="exd-label">${motion}</text>
+      </svg>
+    </div>`;
+}
+
+function getExerciseMotionPath(key = '') {
+  if (['pull-up', 'curl', 'preacher-curl', 'hammer-curl', 'calf-raise', 'front-raise'].includes(key)) return 'M205 108V62M205 62l-8 12M205 62l8 12';
+  if (['lat-pulldown', 'triceps-pushdown', 'squat', 'split-squat', 'leg-curl'].includes(key)) return 'M205 52v56M205 108l-8-12M205 108l8-12';
+  if (['row', 'one-arm-row', 'face-pull'].includes(key)) return 'M206 76h-62M144 76l12-8M144 76l12 8';
+  if (['reverse-fly', 'lateral-raise', 'chest-fly', 'ytwl'].includes(key)) return 'M130 84L76 58M76 58l13-1M76 58l5 11M130 84l54-26M184 58l-13-1M184 58l-5 11';
+  if (['rdl', 'stretch', 'core'].includes(key)) return 'M198 48l-45 45M153 93l4-14M153 93l14-4';
+  return 'M190 76h-50M140 76l11-8M140 76l11 8';
+}
+
+
 // ============================================
 //  页面路由
 // ============================================
@@ -112,6 +186,7 @@ function renderToday() {
           <span>${ex.name}</span>
           <span class="ex-status">${completed ? '✅' : '○'}</span>
         </div>
+        ${renderExerciseDiagram(ex.name)}
         <div class="ex-meta">
           <span>${ex.sets}组 × ${ex.repsMin}~${ex.repsMax}次</span>
           <span>休 ${ex.rest}</span>
@@ -414,8 +489,9 @@ function renderPlan() {
 
     day.exercises.forEach(ex => {
       html += `
-        <div style="display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.03);font-size:14px">
-          <span>${ex.name}</span>
+        <div class="plan-ex-row">
+          ${renderExerciseDiagram(ex.name, 'mini')}
+          <span class="plan-ex-name">${ex.name}</span>
           <span class="text-small text-muted">${ex.sets}×${ex.repsMin}-${ex.repsMax}</span>
         </div>`;
     });
@@ -789,10 +865,8 @@ function renderDiet() {
       try {
         // API 地址（按优先级尝试）
         const apiCandidates = [
-          'https://fitness-ai.believed-astrodon.workers.dev/recognize',                                    // Cloudflare Worker
-          '/fitness-app/api/recognize',                              // GitHub Pages (direct Baidu call via Worker)
-          'https://fitness-ai.believed-astrodon.workers.dev/recognize',  // Cloudflare Worker
-                                                     // 同域 Serverless (Vercel/Netlify)
+          'https://fitness-ai.purple-ornament.workers.dev/recognize',  // Cloudflare Worker
+          '/api/recognize',                                           // 同域 Serverless (Vercel/Netlify)
         ];
         let apiBase = apiCandidates[0];
         let resp = null;
@@ -1066,7 +1140,7 @@ function getNextWorkoutPreview() {
 function initApp() {
   // 注册 Service Worker
   if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('sw.js?v=20260810-shoulder-friday-gh').then(reg => {
+    navigator.serviceWorker.register('sw.js?v=20260811-no-db-press-v2').then(reg => {
       reg.update();
     }).catch(() => {});
 
