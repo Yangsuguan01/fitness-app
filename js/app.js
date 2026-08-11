@@ -1,4 +1,4 @@
-/* ═══════════════════════════════════
+﻿/* ═══════════════════════════════════
    健身助手 App - 主应用逻辑 v2
    ═══════════════════════════════════ */
 
@@ -61,38 +61,124 @@ function getExerciseDiagramKey(name = '') {
 
 function renderExerciseDiagram(name = '', className = '') {
   const key = getExerciseDiagramKey(name);
-  const labels = {
-    'pull-up': '向上拉', 'lat-pulldown': '下拉', 'row': '后拉', 'one-arm-row': '单臂拉',
-    'reverse-fly': '后展', 'lateral-raise': '侧平举', 'front-raise': '前平举',
-    'triceps-pushdown': '下压', 'overhead-extension': '过顶伸', 'squat': '下蹲',
-    'rdl': '髋铰链', 'split-squat': '分腿蹲', 'leg-curl': '腿弯举', 'calf-raise': '提踵',
-    'core': '核心', 'curl': '弯举', 'preacher-curl': '弯举', 'hammer-curl': '锤式',
-    'chest-fly': '夹胸', 'stretch': '拉伸', 'face-pull': '面拉', 'ytwl': '肩胛激活',
-  };
-  const motion = labels[key] || '动作';
+  const diagram = getExerciseDiagramSpec(key);
   return `
     <div class="ex-diagram ${className}" aria-label="${name}动作示意图">
       <svg viewBox="0 0 260 150" role="img">
         <rect x="4" y="4" width="252" height="142" rx="12" class="exd-bg"></rect>
         <path d="M18 132H242" class="exd-line muted"></path>
-        <circle cx="130" cy="52" r="10" class="exd-line"></circle>
-        <path d="M130 63v48M104 74h52M130 111l-22 29M130 111l22 29" class="exd-line"></path>
-        <path d="${getExerciseMotionPath(key)}" class="exd-motion"></path>
-        <text x="130" y="25" text-anchor="middle" class="exd-label">${motion}</text>
+        <text x="130" y="24" text-anchor="middle" class="exd-label">${diagram.label}</text>
+        ${diagram.body}
+        <path d="${diagram.motion}" class="exd-motion"></path>
       </svg>
     </div>`;
 }
 
-function getExerciseMotionPath(key = '') {
-  if (['pull-up', 'curl', 'preacher-curl', 'hammer-curl', 'calf-raise', 'front-raise'].includes(key)) return 'M205 108V62M205 62l-8 12M205 62l8 12';
-  if (['lat-pulldown', 'triceps-pushdown', 'squat', 'split-squat', 'leg-curl'].includes(key)) return 'M205 52v56M205 108l-8-12M205 108l8-12';
-  if (['row', 'one-arm-row', 'face-pull'].includes(key)) return 'M206 76h-62M144 76l12-8M144 76l12 8';
-  if (['reverse-fly', 'lateral-raise', 'chest-fly', 'ytwl'].includes(key)) return 'M130 84L76 58M76 58l13-1M76 58l5 11M130 84l54-26M184 58l-13-1M184 58l-5 11';
-  if (['rdl', 'stretch', 'core'].includes(key)) return 'M198 48l-45 45M153 93l4-14M153 93l14-4';
-  return 'M190 76h-50M140 76l11-8M140 76l11 8';
+function getExerciseDiagramSpec(key = '') {
+  if (['pull-up', 'lat-pulldown'].includes(key)) {
+    return {
+      label: '垂直拉',
+      body: `
+        <path d="M92 54h76" class="exd-line"></path>
+        <circle cx="130" cy="54" r="10" class="exd-line"></circle>
+        <path d="M130 65v45M110 78h40M130 110l-16 22M130 110l16 22" class="exd-line"></path>`,
+      motion: key === 'pull-up' ? 'M205 60V28M205 28l-8 12M205 28l8 12' : 'M205 34v50M205 84l-8-12M205 84l8-12',
+    };
+  }
+
+  if (['row', 'one-arm-row', 'face-pull'].includes(key)) {
+    return {
+      label: '划船/后拉',
+      body: `
+        <rect x="28" y="102" width="70" height="14" rx="6" class="exd-line"></rect>
+        <circle cx="140" cy="70" r="10" class="exd-line"></circle>
+        <path d="M147 79l28 25M112 86l34 12M175 104l-60 8M176 118l-18 17M176 118l23 15" class="exd-line"></path>`,
+      motion: 'M206 76h-56M150 76l12-8M150 76l12 8',
+    };
+  }
+
+  if (['reverse-fly', 'lateral-raise', 'front-raise', 'chest-fly', 'ytwl'].includes(key)) {
+    const arms =
+      key === 'front-raise' ? 'M130 84L130 38M130 38l-8 11M130 38l8 11' :
+      key === 'lateral-raise' ? 'M130 84L76 58M76 58l13-1M76 58l5 11M130 84l54-26M184 58l-13-1M184 58l-5 11' :
+      key === 'chest-fly' ? 'M130 84L82 68M82 68l11-4M82 68l7 9M130 84l48-16M178 68l-11-4M178 68l-7 9' :
+      key === 'ytwl' ? 'M130 84L96 52M96 52l10 2M96 52l2 10M130 84l34-32M164 52l-10 2M164 52l-2 10' :
+      'M130 84L92 58M92 58l11-1M92 58l5 10M130 84l38-26M168 58l-11-1M168 58l-5 10';
+    return {
+      label: key === 'reverse-fly' ? '后束' : key === 'front-raise' ? '前束' : key === 'lateral-raise' ? '侧平举' : key === 'chest-fly' ? '夹胸' : '肩胛',
+      body: `
+        <circle cx="130" cy="58" r="10" class="exd-line"></circle>
+        <path d="M130 68v46M106 78h48M130 114l-18 24M130 114l18 24" class="exd-line"></path>`,
+      motion: arms,
+    };
+  }
+
+  if (['triceps-pushdown', 'overhead-extension'].includes(key)) {
+    return {
+      label: key === 'triceps-pushdown' ? '下压' : '过顶伸',
+      body: `
+        <circle cx="130" cy="56" r="10" class="exd-line"></circle>
+        <path d="M130 66v46M106 76h48M130 112l-18 24M130 112l18 24" class="exd-line"></path>
+        <path d="M130 26v18" class="exd-line muted"></path>`,
+      motion: key === 'triceps-pushdown' ? 'M205 34v58M205 92l-8-12M205 92l8-12' : 'M130 34V18M130 18l-8 12M130 18l8 12',
+    };
+  }
+
+  if (['squat', 'split-squat', 'rdl', 'leg-curl', 'calf-raise', 'core', 'stretch'].includes(key)) {
+    const label = key === 'squat' ? '深蹲' : key === 'split-squat' ? '分腿蹲' : key === 'rdl' ? '髋铰链' : key === 'leg-curl' ? '腿弯举' : key === 'calf-raise' ? '提踵' : key === 'core' ? '核心' : '拉伸';
+    const body =
+      key === 'squat' ? `
+        <circle cx="130" cy="54" r="10" class="exd-line"></circle>
+        <path d="M130 65v36M104 74h52M130 101l-26 18M130 101l26 18M104 119l-18 12M156 119l18 12" class="exd-line"></path>
+        <path d="M110 72h40" class="exd-line muted"></path>` :
+      key === 'split-squat' ? `
+        <circle cx="130" cy="54" r="10" class="exd-line"></circle>
+        <path d="M130 65v38M104 74h52M130 103l-26 16M130 103l30 2M104 119l-18 12M160 105l18 22" class="exd-line"></path>` :
+      key === 'rdl' ? `
+        <circle cx="120" cy="62" r="10" class="exd-line"></circle>
+        <path d="M128 70l40 28M108 78l36 18M166 98l28 4M166 98l-18 26M92 122h84" class="exd-line"></path>` :
+      key === 'leg-curl' ? `
+        <rect x="38" y="104" width="120" height="14" rx="6" class="exd-line"></rect>
+        <circle cx="78" cy="82" r="10" class="exd-line"></circle>
+        <path d="M87 90h78M165 90l34 20M120 90l-12 32M160 110l12 20" class="exd-line"></path>` :
+      key === 'calf-raise' ? `
+        <circle cx="130" cy="56" r="10" class="exd-line"></circle>
+        <path d="M130 66v50M106 76h48M130 116l-18 20M130 116l18 20M102 136h56" class="exd-line"></path>` :
+      key === 'core' ? `
+        <circle cx="70" cy="106" r="10" class="exd-line"></circle>
+        <path d="M80 107h108M120 107l-20 22M150 107l28 20M180 107l28-22" class="exd-line"></path>` :
+      `
+        <circle cx="130" cy="56" r="10" class="exd-line"></circle>
+        <path d="M130 66v48M106 76h48M130 114l-18 22M130 114l18 22" class="exd-line"></path>`;
+    const motion =
+      key === 'squat' ? 'M205 40v44M205 84l-10-10M205 84l10-10' :
+      key === 'split-squat' ? 'M205 40v44M205 84l-10-10M205 84l10-10' :
+      key === 'rdl' ? 'M198 48l-42 44M156 92l4-14M156 92l14-4' :
+      key === 'leg-curl' ? 'M192 108l-28-22M164 86l12-1M164 86l3 11' :
+      key === 'calf-raise' ? 'M205 110V72M205 72l-8 12M205 72l8 12' :
+      key === 'core' ? 'M190 76h-54M136 76l11-8M136 76l11 8' :
+      'M196 44l-32 32M164 76l11-1M164 76l4 10';
+    return { label, body, motion };
+  }
+
+  if (['curl', 'preacher-curl', 'hammer-curl'].includes(key)) {
+    return {
+      label: key === 'hammer-curl' ? '锤式弯举' : '弯举',
+      body: `
+        <circle cx="130" cy="56" r="10" class="exd-line"></circle>
+        <path d="M130 66v48M106 76h48M130 114l-18 22M130 114l18 22" class="exd-line"></path>`,
+      motion: key === 'preacher-curl' ? 'M196 104l-18-28M178 76l1 12M178 76l11 4' : 'M205 104V60M205 60l-8 12M205 60l8 12',
+    };
+  }
+
+  return {
+    label: '动作',
+    body: `
+      <circle cx="130" cy="56" r="10" class="exd-line"></circle>
+      <path d="M130 66v48M106 76h48M130 114l-18 22M130 114l18 22" class="exd-line"></path>`,
+    motion: 'M190 76h-50M140 76l11-8M140 76l11 8',
+  };
 }
-
-
 // ============================================
 //  页面路由
 // ============================================
