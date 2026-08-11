@@ -37,6 +37,7 @@ const WORKOUT_PLAN = {
     exercises: [
       { name: '面拉 Face Pull（热身）', sets: 2, repsMin: 15, repsMax: 15, rest: '30s', note: '激活下斜方+肩袖，推胸前必做' },
       { name: 'Y-T-W-L 伸展（热身）', sets: 2, repsMin: 8, repsMax: 10, rest: '30s', note: '趴地面做，强化下斜方平衡上斜方' },
+      { name: '辅助引体向上（技术组）', sets: 2, repsMin: 3, repsMax: 5, rest: '60s', note: '只练沉肩、肩胛下压和轨迹，保留3~4次余力，不做到力竭' },
       { name: '蝴蝶机夹胸', sets: 4, repsMin: 10, repsMax: 15, rest: '60s', note: '胸部主力动作，手肘微弯，肩胛后收不耸肩' },
       { name: '哑铃飞鸟（平板）', sets: 3, repsMin: 12, repsMax: 15, rest: '45s', note: '胸部拉伸补充，轻重量慢放，不追大重量' },
       { name: '俯卧撑（可扶高）', sets: 3, repsMin: 8, repsMax: 15, rest: '60s', note: '作为胸推动作补位，手撑高可降低难度和肩压力' },
@@ -52,6 +53,7 @@ const WORKOUT_PLAN = {
     emoji: '🦵',
     exercises: [
       { name: '坐姿腿屈伸（代替腿举·股四头）', sets: 4, repsMin: 12, repsMax: 15, rest: '60s', note: '股四头肌，坐姿无足压，控制慢放' },
+      { name: '辅助引体向上（轻量技术）', sets: 1, repsMin: 3, repsMax: 5, rest: '60s', note: '轻量练习沉肩和肩胛控制，保留4次余力，不追次数' },
       { name: '坐姿髋外展（代替腿举·臀大肌）', sets: 3, repsMin: 15, repsMax: 15, rest: '45s', note: '臀大肌+髋外展，坐姿器械，顶峰收缩' },
       { name: '俯卧腿弯举（股二头）', sets: 4, repsMin: 12, repsMax: 15, rest: '60s', note: '大腿后侧，趴姿脚部无压力' },
       { name: '坐姿髋内收（大腿内侧）', sets: 3, repsMin: 15, repsMax: 15, rest: '45s', note: '内收肌群，提高腿部整体力量' },
@@ -69,6 +71,7 @@ const WORKOUT_PLAN = {
     exercises: [
       { name: '面拉 Face Pull（热身）', sets: 2, repsMin: 15, repsMax: 15, rest: '30s', note: '激活下斜方+肩袖' },
       { name: 'Y-T-W-L 伸展（热身）', sets: 2, repsMin: 8, repsMax: 10, rest: '30s', note: '趴地面做，强化下斜方' },
+      { name: '辅助引体向上（技术组）', sets: 2, repsMin: 3, repsMax: 5, rest: '60s', note: '低强度练沉肩和肩胛下压，保留3~4次余力，不做到力竭' },
       { name: '绳索前平举（轻重量）', sets: 2, repsMin: 12, repsMax: 15, rest: '45s', note: '前束辅助，轻重量控制，不耸肩上提' },
       { name: '哑铃侧平举（坐姿）', sets: 4, repsMin: 12, repsMax: 20, rest: '45s', note: '中束核心动作，肘微弯领先小臂' },
       { name: '单臂绳索侧平举', sets: 3, repsMin: 15, repsMax: 20, rest: '45s', note: '补足中束张力，身体保持稳定' },
@@ -89,6 +92,7 @@ const WORKOUT_PLAN = {
     exercises: [
       { name: '面拉 Face Pull（热身）', sets: 2, repsMin: 15, repsMax: 15, rest: '30s', note: '肩袖预热，肩膀远离耳朵' },
       { name: 'Y-T-W-L 伸展（热身）', sets: 2, repsMin: 8, repsMax: 10, rest: '30s', note: '激活下斜方，动作慢而稳' },
+      { name: '辅助引体向上（球赛日前轻量）', sets: 1, repsMin: 3, repsMax: 5, rest: '60s', note: '只做技术练习，保留4次余力，不做到力竭，避免影响下午打球' },
       { name: '蝴蝶机夹胸', sets: 3, repsMin: 10, repsMax: 15, rest: '60s', note: '胸部补量，控制夹胸，不耸肩' },
       { name: '坐姿划船器械', sets: 3, repsMin: 10, repsMax: 12, rest: '60s', note: '背部发力，胸口打开，肩膀不要上提' },
       { name: '哑铃侧平举（坐姿）', sets: 4, repsMin: 12, repsMax: 20, rest: '45s', note: '中束主力，轻重量沉肩，顶峰停1秒' },
