@@ -1,0 +1,24 @@
+{
+  "name": "健身助手 · 五分化训练",
+  "short_name": "健身助手",
+  "description": "五分化训练记录 - 背/胸/腿/肩臂/综合体能",
+  "start_url": ".",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0f0f1a",
+  "theme_color": "#00d4aa",
+  "categories": [
+    "health",
+    "fitness",
+    "lifestyle"
+  ],
+  "icons": [
+    {
+      "src": "icons/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "scope": "."
+}
