@@ -23,7 +23,7 @@ const WORKOUT_PLAN = {
       { name: '宽握高位下拉', sets: 4, repsMin: 8, repsMax: 12, rest: '60s', note: '主攻背宽，拉到锁骨位，肘朝下夹，肩胛下沉' },
       { name: '坐姿绳索划船（宽握把）', sets: 3, repsMin: 10, repsMax: 12, rest: '60s', note: '背阔肌中下部，肩胛后收，不用上斜方借力' },
       { name: '哑铃单臂划船', sets: 3, repsMin: 10, repsMax: 12, rest: '60s', note: '每侧单做，感受背阔肌收缩，空手扶凳保持稳定' },
-      { name: '反向飞鸟（坐姿·哑铃）', sets: 3, repsMin: 12, repsMax: 15, rest: '45s', note: '后束发力，肩膀远离耳朵' },
+      { name: '反向蝴蝶机（后束）', sets: 3, repsMin: 12, repsMax: 15, rest: '45s', note: '后束发力，胸贴靠垫，肩膀远离耳朵' },
       { name: '山羊挺身', sets: 3, repsMin: 12, repsMax: 12, rest: '45s', note: '下背竖脊肌，腰不要过度伸展' },
       { name: '上斜方拉伸（收尾）', sets: 2, repsMin: 20, repsMax: 30, rest: '-', note: '耳朵靠肩保持20秒→转头看腋下→换侧，每天必做' }
     ]
@@ -38,7 +38,7 @@ const WORKOUT_PLAN = {
       { name: 'Y-T-W-L 伸展（热身）', sets: 2, repsMin: 8, repsMax: 10, rest: '30s', note: '趴地面做，强化下斜方平衡上斜方' },
       { name: '哑铃平板卧推', sets: 4, repsMin: 8, repsMax: 12, rest: '60s', note: '胸大肌主体，肩胛后收贴凳' },
       { name: '上斜哑铃卧推', sets: 3, repsMin: 10, repsMax: 12, rest: '60s', note: '上胸，凳子调30度' },
-      { name: '哑铃飞鸟（平板）', sets: 3, repsMin: 12, repsMax: 15, rest: '45s', note: '胸中缝，手肘微弯，感受胸部拉伸' },
+      { name: '蝴蝶机夹胸', sets: 3, repsMin: 12, repsMax: 15, rest: '45s', note: '胸中缝收缩，手肘微弯，肩胛后收不耸肩' },
       { name: '哑铃侧平举', sets: 4, repsMin: 12, repsMax: 20, rest: '45s', note: '中束主力动作，轻重量沉肩，不借力耸肩' },
       { name: '绳索下压（三头）', sets: 3, repsMin: 12, repsMax: 15, rest: '45s', note: '三头收尾，肘夹紧不动' },
       { name: '上斜方拉伸（收尾）', sets: 2, repsMin: 20, repsMax: 30, rest: '-', note: '耳朵靠肩20秒→转头看腋下→换侧' }
@@ -72,9 +72,11 @@ const WORKOUT_PLAN = {
       { name: '哑铃侧平举（坐姿）', sets: 4, repsMin: 12, repsMax: 20, rest: '45s', note: '中束核心动作，肘微弯领先小臂' },
       { name: '单臂绳索侧平举', sets: 3, repsMin: 15, repsMax: 20, rest: '45s', note: '补足中束张力，身体保持稳定' },
       { name: '面拉 Face Pull（正式·高次数）', sets: 3, repsMin: 15, repsMax: 20, rest: '45s', note: '后束+肩袖，动作全程沉肩' },
-      { name: '反向飞鸟（坐姿·哑铃）', sets: 3, repsMin: 12, repsMax: 15, rest: '45s', note: '后束，俯身45度，沉肩后束发力' },
+      { name: '反向蝴蝶机（后束）', sets: 3, repsMin: 12, repsMax: 15, rest: '45s', note: '后束主力，胸贴靠垫，沉肩向后打开' },
       { name: '杠铃弯举（二头）', sets: 3, repsMin: 10, repsMax: 12, rest: '60s', note: '二头，肘夹紧不动' },
+      { name: '器械牧师凳弯举（二头）', sets: 3, repsMin: 10, repsMax: 12, rest: '60s', note: '二头增维度，底部别完全放松，顶峰收紧' },
       { name: '绳索下压（三头）', sets: 3, repsMin: 12, repsMax: 15, rest: '45s', note: '三头收尾' },
+      { name: '绳索过顶臂屈伸（三头长头）', sets: 3, repsMin: 12, repsMax: 15, rest: '45s', note: '补三头长头，手肘朝前固定，不耸肩' },
       { name: '上斜方拉伸（收尾）', sets: 2, repsMin: 20, repsMax: 30, rest: '-', note: '耳朵靠肩20秒→转头看腋下→换侧，每天必做' }
     ]
   },
@@ -89,8 +91,9 @@ const WORKOUT_PLAN = {
       { name: '上斜哑铃卧推', sets: 3, repsMin: 8, repsMax: 12, rest: '60s', note: '上胸+前束，肩胛后收贴凳，不耸肩' },
       { name: '胸托哑铃划船', sets: 3, repsMin: 10, repsMax: 12, rest: '60s', note: '胸贴斜凳减少借力，肘朝后下方拉' },
       { name: '哑铃侧平举（坐姿）', sets: 4, repsMin: 12, repsMax: 20, rest: '45s', note: '中束主力，轻重量沉肩，顶峰停1秒' },
-      { name: '反向飞鸟（坐姿·哑铃）', sets: 3, repsMin: 12, repsMax: 15, rest: '45s', note: '后束补强，俯身45度，不抬肩' },
+      { name: '反向蝴蝶机（后束）', sets: 3, repsMin: 12, repsMax: 15, rest: '45s', note: '后束补强，胸贴靠垫，不抬肩' },
       { name: '绳索弯举（二头）', sets: 3, repsMin: 10, repsMax: 15, rest: '45s', note: '手臂收尾，肘夹紧不晃' },
+      { name: '绳索锤式弯举（肱肌）', sets: 2, repsMin: 12, repsMax: 15, rest: '45s', note: '增加手臂厚度，手腕中立，别甩' },
       { name: '绳索下压（三头）', sets: 3, repsMin: 10, repsMax: 15, rest: '45s', note: '三头收尾，肩膀保持下沉' },
       { name: '上斜方拉伸（收尾）', sets: 2, repsMin: 20, repsMax: 30, rest: '-', note: '耳朵靠肩20秒→转头看腋下→换侧' }
     ],
