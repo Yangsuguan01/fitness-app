@@ -774,3 +774,49 @@ html, body {
   .app-content::-webkit-scrollbar-track { background: transparent; }
   .app-content::-webkit-scrollbar-thumb { background: var(--card-border); border-radius: 4px; }
 }
+
+/* Exercise diagrams */
+.ex-diagram {
+  margin: 10px 0 8px;
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.06);
+  background: rgba(255,255,255,0.02);
+  overflow: hidden;
+}
+.ex-diagram img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 13 / 7.5;
+  object-fit: cover;
+}
+.ex-diagram.large {
+  margin: 8px 0 12px;
+}
+.ex-diagram.mini {
+  width: 64px;
+  min-width: 64px;
+  margin: 0;
+}
+.plan-ex-row {
+  display: grid;
+  grid-template-columns: 64px minmax(0, 1fr) auto;
+  gap: 10px;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.03);
+  font-size: 14px;
+}
+.plan-ex-name {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.ex-diagram svg {
+  display: block;
+  width: 100%;
+  aspect-ratio: 13 / 7.5;
+}
+.exd-bg { fill: #161625; stroke: #2a2a45; stroke-width: 2; }
+.exd-line { fill: none; stroke: #e8f1ff; stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; }
+.exd-line.muted { stroke: #2a2a45; stroke-width: 2; }
+.exd-motion { fill: none; stroke: var(--accent); stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; }
+.exd-label { fill: var(--accent); font-size: 15px; font-weight: 700; font-family: inherit; }
