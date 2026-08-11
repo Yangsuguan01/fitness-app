@@ -1064,7 +1064,7 @@ function getNextWorkoutPreview() {
 function initApp() {
   // 注册 Service Worker
   if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('/sw.js?v=20260810-shoulder-friday').then(reg => {
+    navigator.serviceWorker.register('sw.js?v=20260811-no-db-press-v2').then(reg => {
       reg.update();
     }).catch(() => {});
 
