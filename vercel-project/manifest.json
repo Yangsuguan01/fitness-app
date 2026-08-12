@@ -1,7 +1,7 @@
 {
   "name": "健身助手 · 五分化训练",
   "short_name": "健身助手",
-  "description": "五分化训练记录 - 背/胸/腿/肩臂/综合体能",
+  "description": "五分化训练记录 - 背/胸/肩臂/恢复/综合体能",
   "start_url": "/",
   "display": "standalone",
   "orientation": "portrait",
