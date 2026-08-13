@@ -1,4 +1,4 @@
-const CACHE_NAME = 'fitness-app-v8-inline-diagrams';
+const CACHE_NAME = 'fitness-app-v5';
 const BASE_PATH = new URL(self.registration.scope).pathname;
 const ASSETS = [
   '',
@@ -7,30 +7,7 @@ const ASSETS = [
   'js/app.js',
   'js/data.js',
   'icons/icon.svg',
-  'manifest.json',
-  'assets/exercises/face-pull.svg',
-  'assets/exercises/ytwl.svg',
-  'assets/exercises/pull-up.svg',
-  'assets/exercises/lat-pulldown.svg',
-  'assets/exercises/row.svg',
-  'assets/exercises/one-arm-row.svg',
-  'assets/exercises/reverse-fly.svg',
-  'assets/exercises/lateral-raise.svg',
-  'assets/exercises/front-raise.svg',
-  'assets/exercises/triceps-pushdown.svg',
-  'assets/exercises/overhead-extension.svg',
-  'assets/exercises/squat.svg',
-  'assets/exercises/rdl.svg',
-  'assets/exercises/split-squat.svg',
-  'assets/exercises/leg-curl.svg',
-  'assets/exercises/calf-raise.svg',
-  'assets/exercises/core.svg',
-  'assets/exercises/curl.svg',
-  'assets/exercises/preacher-curl.svg',
-  'assets/exercises/hammer-curl.svg',
-  'assets/exercises/chest-fly.svg',
-  'assets/exercises/stretch.svg',
-  'assets/exercises/generic.svg',
+  'manifest.json'
 ].map(path => `${BASE_PATH}${path}`);
 
 // 安装：预缓存静态资源
