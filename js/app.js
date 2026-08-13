@@ -1,4 +1,4 @@
-﻿/* ═══════════════════════════════════
+/* ═══════════════════════════════════
    健身助手 App - 主应用逻辑 v2
    ═══════════════════════════════════ */
 
@@ -19,166 +19,6 @@ const $$ = s => document.querySelectorAll(s);
 const content = () => $('.app-content');
 const headerTitle = () => $('.app-header h1');
 
-const EXERCISE_DIAGRAM_RULES = [
-  ['Face Pull', 'face-pull'],
-  ['Y-T-W-L', 'ytwl'],
-  ['引体', 'pull-up'],
-  ['高位下拉', 'lat-pulldown'],
-  ['坐姿绳索划船', 'row'],
-  ['坐姿划船', 'row'],
-  ['单臂划船', 'one-arm-row'],
-  ['单臂哑铃划船', 'one-arm-row'],
-  ['反向蝴蝶', 'reverse-fly'],
-  ['反向飞鸟', 'reverse-fly'],
-  ['侧平举', 'lateral-raise'],
-  ['前平举', 'front-raise'],
-  ['绳索下压', 'triceps-pushdown'],
-  ['过顶臂屈伸', 'overhead-extension'],
-  ['凳上反屈伸', 'triceps-pushdown'],
-  ['高脚杯深蹲', 'squat'],
-  ['腿举', 'squat'],
-  ['罗马尼亚硬拉', 'rdl'],
-  ['保加利亚', 'split-squat'],
-  ['箭步蹲', 'split-squat'],
-  ['腿弯举', 'leg-curl'],
-  ['提踵', 'calf-raise'],
-  ['平板支撑', 'core'],
-  ['死虫', 'core'],
-  ['杠铃弯举', 'curl'],
-  ['绳索弯举', 'curl'],
-  ['牧师', 'preacher-curl'],
-  ['锤式', 'hammer-curl'],
-  ['蝴蝶机夹胸', 'chest-fly'],
-  ['夹胸', 'chest-fly'],
-  ['拉伸', 'stretch'],
-  ['热身', 'stretch'],
-];
-
-function getExerciseDiagramKey(name = '') {
-  const matched = EXERCISE_DIAGRAM_RULES.find(([needle]) => name.includes(needle));
-  return matched ? matched[1] : 'generic';
-}
-
-function renderExerciseDiagram(name = '', className = '') {
-  const key = getExerciseDiagramKey(name);
-  const diagram = getExerciseDiagramSpec(key);
-  return `
-    <div class="ex-diagram ${className}" aria-label="${name}动作示意图">
-      <svg viewBox="0 0 260 150" role="img">
-        <rect x="4" y="4" width="252" height="142" rx="12" class="exd-bg"></rect>
-        <path d="M18 132H242" class="exd-line muted"></path>
-        <text x="130" y="24" text-anchor="middle" class="exd-label">${diagram.label}</text>
-        ${diagram.body}
-        <path d="${diagram.motion}" class="exd-motion"></path>
-      </svg>
-    </div>`;
-}
-
-function getExerciseDiagramSpec(key = '') {
-  if (['pull-up', 'lat-pulldown'].includes(key)) {
-    return {
-      label: '垂直拉',
-      body: `
-        <path d="M92 54h76" class="exd-line"></path>
-        <circle cx="130" cy="54" r="10" class="exd-line"></circle>
-        <path d="M130 65v45M110 78h40M130 110l-16 22M130 110l16 22" class="exd-line"></path>`,
-      motion: key === 'pull-up' ? 'M205 60V28M205 28l-8 12M205 28l8 12' : 'M205 34v50M205 84l-8-12M205 84l8-12',
-    };
-  }
-
-  if (['row', 'one-arm-row', 'face-pull'].includes(key)) {
-    return {
-      label: '划船/后拉',
-      body: `
-        <rect x="28" y="102" width="70" height="14" rx="6" class="exd-line"></rect>
-        <circle cx="140" cy="70" r="10" class="exd-line"></circle>
-        <path d="M147 79l28 25M112 86l34 12M175 104l-60 8M176 118l-18 17M176 118l23 15" class="exd-line"></path>`,
-      motion: 'M206 76h-56M150 76l12-8M150 76l12 8',
-    };
-  }
-
-  if (['reverse-fly', 'lateral-raise', 'front-raise', 'chest-fly', 'ytwl'].includes(key)) {
-    const arms =
-      key === 'front-raise' ? 'M130 84L130 38M130 38l-8 11M130 38l8 11' :
-      key === 'lateral-raise' ? 'M130 84L76 58M76 58l13-1M76 58l5 11M130 84l54-26M184 58l-13-1M184 58l-5 11' :
-      key === 'chest-fly' ? 'M130 84L82 68M82 68l11-4M82 68l7 9M130 84l48-16M178 68l-11-4M178 68l-7 9' :
-      key === 'ytwl' ? 'M130 84L96 52M96 52l10 2M96 52l2 10M130 84l34-32M164 52l-10 2M164 52l-2 10' :
-      'M130 84L92 58M92 58l11-1M92 58l5 10M130 84l38-26M168 58l-11-1M168 58l-5 10';
-    return {
-      label: key === 'reverse-fly' ? '后束' : key === 'front-raise' ? '前束' : key === 'lateral-raise' ? '侧平举' : key === 'chest-fly' ? '夹胸' : '肩胛',
-      body: `
-        <circle cx="130" cy="58" r="10" class="exd-line"></circle>
-        <path d="M130 68v46M106 78h48M130 114l-18 24M130 114l18 24" class="exd-line"></path>`,
-      motion: arms,
-    };
-  }
-
-  if (['triceps-pushdown', 'overhead-extension'].includes(key)) {
-    return {
-      label: key === 'triceps-pushdown' ? '下压' : '过顶伸',
-      body: `
-        <circle cx="130" cy="56" r="10" class="exd-line"></circle>
-        <path d="M130 66v46M106 76h48M130 112l-18 24M130 112l18 24" class="exd-line"></path>
-        <path d="M130 26v18" class="exd-line muted"></path>`,
-      motion: key === 'triceps-pushdown' ? 'M205 34v58M205 92l-8-12M205 92l8-12' : 'M130 34V18M130 18l-8 12M130 18l8 12',
-    };
-  }
-
-  if (['squat', 'split-squat', 'rdl', 'leg-curl', 'calf-raise', 'core', 'stretch'].includes(key)) {
-    const label = key === 'squat' ? '深蹲' : key === 'split-squat' ? '分腿蹲' : key === 'rdl' ? '髋铰链' : key === 'leg-curl' ? '腿弯举' : key === 'calf-raise' ? '提踵' : key === 'core' ? '核心' : '拉伸';
-    const body =
-      key === 'squat' ? `
-        <circle cx="130" cy="54" r="10" class="exd-line"></circle>
-        <path d="M130 65v36M104 74h52M130 101l-26 18M130 101l26 18M104 119l-18 12M156 119l18 12" class="exd-line"></path>
-        <path d="M110 72h40" class="exd-line muted"></path>` :
-      key === 'split-squat' ? `
-        <circle cx="130" cy="54" r="10" class="exd-line"></circle>
-        <path d="M130 65v38M104 74h52M130 103l-26 16M130 103l30 2M104 119l-18 12M160 105l18 22" class="exd-line"></path>` :
-      key === 'rdl' ? `
-        <circle cx="120" cy="62" r="10" class="exd-line"></circle>
-        <path d="M128 70l40 28M108 78l36 18M166 98l28 4M166 98l-18 26M92 122h84" class="exd-line"></path>` :
-      key === 'leg-curl' ? `
-        <rect x="38" y="104" width="120" height="14" rx="6" class="exd-line"></rect>
-        <circle cx="78" cy="82" r="10" class="exd-line"></circle>
-        <path d="M87 90h78M165 90l34 20M120 90l-12 32M160 110l12 20" class="exd-line"></path>` :
-      key === 'calf-raise' ? `
-        <circle cx="130" cy="56" r="10" class="exd-line"></circle>
-        <path d="M130 66v50M106 76h48M130 116l-18 20M130 116l18 20M102 136h56" class="exd-line"></path>` :
-      key === 'core' ? `
-        <circle cx="70" cy="106" r="10" class="exd-line"></circle>
-        <path d="M80 107h108M120 107l-20 22M150 107l28 20M180 107l28-22" class="exd-line"></path>` :
-      `
-        <circle cx="130" cy="56" r="10" class="exd-line"></circle>
-        <path d="M130 66v48M106 76h48M130 114l-18 22M130 114l18 22" class="exd-line"></path>`;
-    const motion =
-      key === 'squat' ? 'M205 40v44M205 84l-10-10M205 84l10-10' :
-      key === 'split-squat' ? 'M205 40v44M205 84l-10-10M205 84l10-10' :
-      key === 'rdl' ? 'M198 48l-42 44M156 92l4-14M156 92l14-4' :
-      key === 'leg-curl' ? 'M192 108l-28-22M164 86l12-1M164 86l3 11' :
-      key === 'calf-raise' ? 'M205 110V72M205 72l-8 12M205 72l8 12' :
-      key === 'core' ? 'M190 76h-54M136 76l11-8M136 76l11 8' :
-      'M196 44l-32 32M164 76l11-1M164 76l4 10';
-    return { label, body, motion };
-  }
-
-  if (['curl', 'preacher-curl', 'hammer-curl'].includes(key)) {
-    return {
-      label: key === 'hammer-curl' ? '锤式弯举' : '弯举',
-      body: `
-        <circle cx="130" cy="56" r="10" class="exd-line"></circle>
-        <path d="M130 66v48M106 76h48M130 114l-18 22M130 114l18 22" class="exd-line"></path>`,
-      motion: key === 'preacher-curl' ? 'M196 104l-18-28M178 76l1 12M178 76l11 4' : 'M205 104V60M205 60l-8 12M205 60l8 12',
-    };
-  }
-
-  return {
-    label: '动作',
-    body: `
-      <circle cx="130" cy="56" r="10" class="exd-line"></circle>
-      <path d="M130 66v48M106 76h48M130 114l-18 22M130 114l18 22" class="exd-line"></path>`,
-    motion: 'M190 76h-50M140 76l11-8M140 76l11 8',
-  };
-}
 // ============================================
 //  页面路由
 // ============================================
@@ -272,7 +112,6 @@ function renderToday() {
           <span>${ex.name}</span>
           <span class="ex-status">${completed ? '✅' : '○'}</span>
         </div>
-        ${renderExerciseDiagram(ex.name)}
         <div class="ex-meta">
           <span>${ex.sets}组 × ${ex.repsMin}~${ex.repsMax}次</span>
           <span>休 ${ex.rest}</span>
@@ -575,9 +414,8 @@ function renderPlan() {
 
     day.exercises.forEach(ex => {
       html += `
-        <div class="plan-ex-row">
-          ${renderExerciseDiagram(ex.name, 'mini')}
-          <span class="plan-ex-name">${ex.name}</span>
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.03);font-size:14px">
+          <span>${ex.name}</span>
           <span class="text-small text-muted">${ex.sets}×${ex.repsMin}-${ex.repsMax}</span>
         </div>`;
     });
@@ -951,8 +789,10 @@ function renderDiet() {
       try {
         // API 地址（按优先级尝试）
         const apiCandidates = [
-          'https://fitness-ai.purple-ornament.workers.dev/recognize',  // Cloudflare Worker
-          '/api/recognize',                                           // 同域 Serverless (Vercel/Netlify)
+          'https://fitness-ai.believed-astrodon.workers.dev/recognize',                                    // Cloudflare Worker
+          '/fitness-app/api/recognize',                              // GitHub Pages (direct Baidu call via Worker)
+          'https://fitness-ai.believed-astrodon.workers.dev/recognize',  // Cloudflare Worker
+                                                     // 同域 Serverless (Vercel/Netlify)
         ];
         let apiBase = apiCandidates[0];
         let resp = null;
@@ -1226,7 +1066,7 @@ function getNextWorkoutPreview() {
 function initApp() {
   // 注册 Service Worker
   if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('sw.js?v=20260811-no-db-press-v2').then(reg => {
+    navigator.serviceWorker.register('sw.js?v=20260810-shoulder-friday-gh').then(reg => {
       reg.update();
     }).catch(() => {});
 
