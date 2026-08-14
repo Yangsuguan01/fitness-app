@@ -2,9 +2,9 @@
    健身计划数据 + 本地存储
    ============================ */
 
-// ─── 五分化训练计划：宽肩优先 · 弱化上斜方 ───
+// ─── 五分化训练计划：背肩优先 · 减少上斜方代偿 ───
 /*
- * ⚠️ 斜方肌弱化提醒：
+ * ⚠️ 减少上斜方代偿提醒：
  * - 所有推/拉动作意念沉肩，不耸肩借力
  * - 面拉/Y-T-W-L 高次数 → 强化下斜方
  * - 每天拉伸上斜方（耳朵靠肩+转头）
@@ -14,32 +14,33 @@
 const WORKOUT_PLAN = {
   monday: {
     day: 1,
-    title: '拉 · 背阔肌宽度',
-    subtitle: '背宽 + 后束 · 约50–55分钟',
+    title: '背宽 · 背阔肌主练',
+    subtitle: '引体 + 下拉 · 约50–55分钟',
     emoji: '🏋️',
     exercises: [
       { name: '面拉 Face Pull（热身）', sets: 2, repsMin: 15, repsMax: 15, rest: '30s', note: '激活下斜方+肩袖，正式组前必做' },
       { name: 'Y-T-W-L 伸展（热身）', sets: 1, repsMin: 8, repsMax: 10, rest: '30s', note: '轻量激活即可，不做到酸痛力竭' },
-      { name: '辅助引体向上（正握/中立握）', sets: 3, repsMin: 6, repsMax: 10, rest: '90s', note: '主攻背宽，先沉肩再拉，脖子放松不耸肩' },
-      { name: '宽握高位下拉', sets: 3, repsMin: 8, repsMax: 12, rest: '60s', note: '补背阔发力，拉到锁骨位，肘朝下夹，肩胛下沉' },
+      { name: '辅助引体向上（中立握优先）', sets: 3, repsMin: 6, repsMax: 10, rest: '90s', note: '主攻背宽，先沉肩再将肘拉向身体两侧' },
+      { name: '中握高位下拉', sets: 3, repsMin: 8, repsMax: 12, rest: '75s', note: '不必追求过宽握距，肩胛下沉，肘朝下' },
+      { name: '直臂下压', sets: 2, repsMin: 12, repsMax: 15, rest: '45s', note: '只动肩关节，用背阔肌把绳索压向大腿' },
       { name: '坐姿绳索划船（宽握把）', sets: 3, repsMin: 10, repsMax: 12, rest: '60s', note: '背阔肌中下部，肩胛后收，不用上斜方借力' },
-      { name: '反向蝴蝶机（后束）', sets: 3, repsMin: 12, repsMax: 15, rest: '45s', note: '后束发力，胸贴靠垫，肩膀远离耳朵' },
+      { name: '反向蝴蝶机（后束）', sets: 2, repsMin: 12, repsMax: 15, rest: '45s', note: '后束发力，胸贴靠垫，肩膀远离耳朵' },
       { name: '上斜方拉伸（收尾）', sets: 2, repsMin: 20, repsMax: 30, rest: '-', note: '耳朵靠肩保持20秒→转头看腋下→换侧，每天必做' }
     ]
   },
   tuesday: {
     day: 2,
-    title: '推 · 胸 + 前中束',
-    subtitle: '胸 + 肩中束 + 三头 · 约50–55分钟',
+    title: '肩宽 · 中束 + 后束',
+    subtitle: '肩部主练 + 三头 · 约50–55分钟',
     emoji: '💪',
     exercises: [
-      { name: '面拉 Face Pull（热身）', sets: 2, repsMin: 15, repsMax: 15, rest: '30s', note: '激活下斜方+肩袖，推胸前必做' },
+      { name: '面拉 Face Pull（热身）', sets: 2, repsMin: 15, repsMax: 15, rest: '30s', note: '轻量激活后束、肩袖和肩胛控制' },
       { name: 'Y-T-W-L 伸展（热身）', sets: 1, repsMin: 8, repsMax: 10, rest: '30s', note: '轻量激活肩袖和下斜方' },
-      { name: '蝴蝶机夹胸', sets: 4, repsMin: 10, repsMax: 15, rest: '60s', note: '胸部主力动作，手肘微弯，肩胛后收不耸肩' },
-      { name: '俯卧撑（可扶高）', sets: 3, repsMin: 8, repsMax: 15, rest: '60s', note: '作为胸推动作补位，手撑高可降低难度和肩压力' },
-      { name: '哑铃飞鸟（平板）', sets: 2, repsMin: 12, repsMax: 15, rest: '45s', note: '只做轻重量拉伸补充，肩前侧不适就取消' },
-      { name: '哑铃侧平举', sets: 4, repsMin: 12, repsMax: 20, rest: '45s', note: '中束主力动作，轻重量沉肩，不借力耸肩' },
-      { name: '绳索下压（三头）', sets: 3, repsMin: 12, repsMax: 15, rest: '45s', note: '三头收尾，肘夹紧不动' },
+      { name: '哑铃侧平举（坐姿）', sets: 4, repsMin: 12, repsMax: 20, rest: '60s', note: '肩宽核心动作，轻重量沉肩，不摆身耸肩' },
+      { name: '单臂绳索侧平举', sets: 2, repsMin: 12, repsMax: 15, rest: '45s', note: '低位绳索从身体侧面拉起，每侧同样组数' },
+      { name: '反向蝴蝶机（后束）', sets: 3, repsMin: 12, repsMax: 15, rest: '45s', note: '胸贴靠垫，肩膀远离耳朵，不用手臂甩' },
+      { name: '绳索下压（三头）', sets: 4, repsMin: 10, repsMax: 15, rest: '60s', note: '肘夹紧不动，不耸肩' },
+      { name: '下巴回收 Chin Tuck', sets: 2, repsMin: 8, repsMax: 10, rest: '30s', note: '后脑勺水平向后移，改善头前伸观感，不能局部减脂' },
       { name: '上斜方拉伸（收尾）', sets: 2, repsMin: 20, repsMax: 30, rest: '-', note: '耳朵靠肩20秒→转头看腋下→换侧' }
     ]
   },
@@ -52,42 +53,44 @@ const WORKOUT_PLAN = {
       { name: '面拉 Face Pull（热身）', sets: 2, repsMin: 15, repsMax: 15, rest: '30s', note: '轻重量，找肩胛下沉和后束发力' },
       { name: 'Y-T-W-L 伸展（热身）', sets: 2, repsMin: 8, repsMax: 10, rest: '30s', note: '俯卧或靠垫完成，慢做控制肩胛' },
       { name: '辅助引体向上（技术组）', sets: 2, repsMin: 3, repsMax: 5, rest: '60s', note: '保留4次余力，只练沉肩和轨迹' },
-      { name: '哑铃侧平举（坐姿）', sets: 2, repsMin: 12, repsMax: 15, rest: '45s', note: '轻量激活，不做酸痛堆积' },
+      { name: '哑铃侧平举（坐姿）', sets: 2, repsMin: 15, repsMax: 20, rest: '45s', note: '轻量技术组，保留4次余力' },
       { name: '哑铃弯举 + 绳索下压（超级组）', sets: 2, repsMin: 12, repsMax: 15, rest: '60s', note: '两个动作连续做为1组，全程留余力' },
-      { name: '跪姿平板支撑', sets: 2, repsMin: 20, repsMax: 40, rest: '30s', note: '避免足踝承重；不适就停' }
+      { name: '死虫式 Dead Bug', sets: 3, repsMin: 8, repsMax: 12, rest: '30s', note: '仰卧完成，腰背贴地，避免足踝承重' },
+      { name: '下巴回收 Chin Tuck', sets: 2, repsMin: 8, repsMax: 10, rest: '30s', note: '轻轻回收，不要低头或用力挤压颈部' }
     ]
   },
   thursday: {
     day: 4,
-    title: '肩 + 下斜方强化',
-    subtitle: '中束/后束 + 手臂 · 约50–55分钟',
+    title: '背厚 · 划船 + 背阔',
+    subtitle: '背部第二次主练 + 二头 · 约50–55分钟',
     emoji: '💪',
     exercises: [
       { name: '面拉 Face Pull（热身）', sets: 2, repsMin: 15, repsMax: 15, rest: '30s', note: '激活下斜方+肩袖' },
       { name: 'Y-T-W-L 伸展（热身）', sets: 1, repsMin: 8, repsMax: 10, rest: '30s', note: '轻量激活肩袖和下斜方' },
-      { name: '哑铃侧平举（坐姿）', sets: 4, repsMin: 12, repsMax: 20, rest: '45s', note: '中束核心动作，肘微弯领先小臂' },
+      { name: '中立握高位下拉', sets: 3, repsMin: 8, repsMax: 12, rest: '75s', note: '肘拉向腰侧，肩膀不向耳朵靠近' },
+      { name: '坐姿绳索划船', sets: 4, repsMin: 8, repsMax: 12, rest: '75s', note: '背厚主力，胸口打开，肩胛后收但不耸肩' },
+      { name: '直臂下压', sets: 2, repsMin: 12, repsMax: 15, rest: '45s', note: '补背阔肌，手肘角度固定，不借腰' },
       { name: '反向蝴蝶机（后束）', sets: 3, repsMin: 12, repsMax: 15, rest: '45s', note: '后束主力，胸贴靠垫，沉肩向后打开' },
-      { name: '杠铃弯举（二头）', sets: 4, repsMin: 8, repsMax: 12, rest: '60s', note: '与绳索下压交替做，肘固定不摆身' },
-      { name: '绳索下压（三头）', sets: 4, repsMin: 10, repsMax: 15, rest: '60s', note: '与弯举交替做，肘夹紧，肩膀下沉' },
+      { name: '杠铃弯举（二头）', sets: 4, repsMin: 8, repsMax: 12, rest: '60s', note: '背部已经充分预疲劳二头，肘固定，不摆身' },
       { name: '上斜方拉伸（收尾）', sets: 2, repsMin: 20, repsMax: 30, rest: '-', note: '耳朵靠肩20秒→转头看腋下→换侧，每天必做' }
     ]
   },
   friday: {
     day: 5,
-    title: '🏀 球赛日 · 上肢综合 + 实战',
-    subtitle: '上肢轻量激活 · 约30–40分钟 · 下午打球',
-    emoji: '🏀',
+    title: '肩部二练 · 中后束 + 手臂',
+    subtitle: '不练胸 · 减少上斜方代偿 · 约45–55分钟',
+    emoji: '💪',
     exercises: [
       { name: '面拉 Face Pull（热身）', sets: 2, repsMin: 15, repsMax: 15, rest: '30s', note: '肩袖预热，肩膀远离耳朵' },
       { name: 'Y-T-W-L 伸展（热身）', sets: 1, repsMin: 8, repsMax: 10, rest: '30s', note: '激活下斜方，动作慢而稳' },
-      { name: '辅助引体向上（球赛日前轻量）', sets: 1, repsMin: 3, repsMax: 5, rest: '60s', note: '只做技术练习，保留4次余力，不做到力竭，避免影响下午打球' },
-      { name: '蝴蝶机夹胸', sets: 2, repsMin: 12, repsMax: 15, rest: '45s', note: '轻量补量，保留3次余力' },
-      { name: '坐姿划船器械', sets: 2, repsMin: 10, repsMax: 12, rest: '45s', note: '轻量背部激活，不借腰不耸肩' },
-      { name: '哑铃侧平举（坐姿）', sets: 2, repsMin: 15, repsMax: 20, rest: '45s', note: '轻重量沉肩，不做到力竭' },
-      { name: '绳索弯举 + 绳索下压（超级组）', sets: 2, repsMin: 12, repsMax: 15, rest: '60s', note: '两个动作连续做为1组，不影响下午投篮为准' },
+      { name: '辅助引体向上（技术组）', sets: 2, repsMin: 5, repsMax: 8, rest: '75s', note: '保留3次余力，先沉肩再拉，不耸肩追求高度' },
+      { name: '哑铃侧平举（坐姿）', sets: 4, repsMin: 12, repsMax: 20, rest: '60s', note: '中束正式组，轻重量沉肩，不摆身耸肩' },
+      { name: '反向蝴蝶机（后束）', sets: 3, repsMin: 12, repsMax: 15, rest: '45s', note: '后束正式组，胸贴靠垫，肩膀远离耳朵' },
+      { name: '绳索弯举 + 绳索下压（超级组）', sets: 3, repsMin: 10, repsMax: 15, rest: '75s', note: '两个动作连续做为1组，肘固定，肩膀下沉' },
+      { name: '下巴回收 Chin Tuck', sets: 2, repsMin: 8, repsMax: 10, rest: '30s', note: '改善头前伸观感，不能代替整体减脂' },
       { name: '上斜方拉伸（收尾）', sets: 2, repsMin: 20, repsMax: 30, rest: '-', note: '耳朵靠肩20秒→转头看腋下→换侧' }
     ],
-    circuitNote: '周五只做轻量激活，全程保留3–4次余力。下午打球时足踝若出现疼痛加重、肿胀或不稳，应立即停止。'
+    circuitNote: '周五为肩部第二次正式训练，中束和后束优先。出现耸肩、颈部紧张或动作变形时，立即降低重量。'
   }
 };
 
@@ -132,6 +135,7 @@ const DIET_GUIDE = {
     }
   ],
   rules: [
+    { icon: '📉', text: '瘦下巴靠整体减脂：目标每周下降0.2~0.4kg，连续2周不降再每天减少150kcal' },
     { icon: '✅', text: '鸡胸肉、鱼虾、瘦牛肉、鸡蛋、豆腐' },
     { icon: '✅', text: '全麦面包、燕麦、杂粮饭、红薯、玉米' },
     { icon: '✅', text: '所有蔬菜（尤其是绿叶菜）' },

@@ -1066,7 +1066,7 @@ function getNextWorkoutPreview() {
 function initApp() {
   // 注册 Service Worker
   if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('sw.js?v=20260814-one-hour-v1').then(reg => {
+    navigator.serviceWorker.register('sw.js?v=20260814-back-shoulders-v2').then(reg => {
       reg.update();
     }).catch(() => {});
 
