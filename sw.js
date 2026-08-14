@@ -1,4 +1,4 @@
-const CACHE_NAME = 'fitness-app-v5';
+const CACHE_NAME = 'fitness-app-v6';
 const BASE_PATH = new URL(self.registration.scope).pathname;
 const ASSETS = [
   '',
