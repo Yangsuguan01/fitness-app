@@ -79,20 +79,21 @@ const WORKOUT_PLAN = {
   },
   friday: {
     day: 5,
-    title: '🏀 综合·轻量上肢 + 球赛',
-    subtitle: '轻训保留体力 · 下午球赛 = 最佳燃脂瘦下巴',
-    emoji: '🏀',
+    title: '综合 · 背肩手臂全练',
+    subtitle: '全身上肢综合 · 高次数燃脂 + 瘦下巴收尾',
+    emoji: '💪',
     exercises: [
-      { name: '面拉 Face Pull（热身）', sets: 2, repsMin: 15, repsMax: 15, rest: '30s', note: '肩袖预热' },
-      { name: '辅助引体向上（轻量）', sets: 3, repsMin: 6, repsMax: 8, rest: '60s', note: '轻量背激活，不用力竭' },
-      { name: '哑铃侧平举（轻量）', sets: 3, repsMin: 12, repsMax: 15, rest: '45s', note: '中束激活' },
-      { name: '面拉 Face Pull', sets: 3, repsMin: 15, repsMax: 15, rest: '45s', note: '后束+肩袖' },
-      { name: '锤式弯举（ Hammer Curl）', sets: 2, repsMin: 12, repsMax: 12, rest: '45s', note: '肱肌+前臂，手臂粗壮关键' },
-      { name: '农夫行走', sets: 2, repsMin: 30, repsMax: 40, rest: '-', note: '单位秒，握力+核心' },
-      { name: '收下巴 Chin Tuck（瘦下巴）', sets: 3, repsMin: 10, repsMax: 10, rest: '30s', note: '🎯 后脑勺后顶5秒' },
+      { name: '面拉 Face Pull（热身）', sets: 2, repsMin: 15, repsMax: 15, rest: '30s', note: '激活肩袖+后束' },
+      { name: 'Y-T-W-L 伸展（热身）', sets: 2, repsMin: 8, repsMax: 10, rest: '30s', note: '强化下斜方' },
+      { name: '辅助引体向上（轻量）', sets: 3, repsMin: 6, repsMax: 8, rest: '60s', note: '背激活，不用力竭' },
+      { name: '坐姿绳索划船（宽握）', sets: 3, repsMin: 12, repsMax: 15, rest: '45s', note: '背厚度，高次数轻重量' },
+      { name: '哑铃侧平举（轻量·高次数）', sets: 3, repsMin: 15, repsMax: 20, rest: '45s', note: '中束燃脂，轻重量多次数' },
+      { name: '面拉 Face Pull（正式）', sets: 3, repsMin: 15, repsMax: 20, rest: '45s', note: '后束+肩袖，改善圆肩' },
+      { name: '哑铃弯举（二头）', sets: 3, repsMin: 12, repsMax: 15, rest: '45s', note: '二头收尾' },
+      { name: '绳索下压（三头）', sets: 3, repsMin: 12, repsMax: 15, rest: '45s', note: '三头收尾' },
+      { name: '收下巴 Chin Tuck（瘦下巴）', sets: 3, repsMin: 10, repsMax: 10, rest: '30s', note: '🎯 后脑勺后顶5秒×10次' },
       { name: '上斜方拉伸（收尾）', sets: 2, repsMin: 20, repsMax: 30, rest: '-', note: '耳朵靠肩→换侧' }
-    ],
-    circuitNote: '早上30min轻训即可，保留体力打下午球赛。🏀 球赛是燃脂瘦下巴的最佳方式！'
+    ]
   }
 };
 
