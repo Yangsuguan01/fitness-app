@@ -47,17 +47,23 @@ const WORKOUT_PLAN = {
   },
   wednesday: {
     day: 3,
-    title: '恢复 · 瘦下巴专项 + 轻量手臂',
-    subtitle: '🫶 颈部训练日 · 不碰脚 · 手臂泵感',
+    title: '恢复 · 瘦下巴专项 + 肩颈 + 核心',
+    subtitle: '🫶 颈部训练日 + 轻量上肢 + 核心稳定',
     emoji: '🫶',
     exercises: [
-      { name: 'Y-T-W-L 伸展', sets: 2, repsMin: 8, repsMax: 10, rest: '30s', note: '慢做控制肩胛，感受下斜方发力' },
-      { name: '收下巴 Chin Tuck（加强版）', sets: 4, repsMin: 10, repsMax: 15, rest: '30s', note: '🎯 核心动作！收下巴后脑勺后顶5秒，配合深呼气加强' },
-      { name: '颈部侧向拉伸', sets: 2, repsMin: 20, repsMax: 30, rest: '15s', note: '🎯 耳朵靠肩+手轻压头加深度，每侧保持20秒' },
-      { name: '颈部旋转拉伸', sets: 2, repsMin: 15, repsMax: 20, rest: '15s', note: '🎯 下巴转向腋下方向，拉伸颈侧+斜方，每侧15秒' },
-      { name: '轻量面拉 Face Pull', sets: 2, repsMin: 15, repsMax: 15, rest: '30s', note: '很轻重量，维持肩袖激活' },
-      { name: '轻量哑铃弯举', sets: 2, repsMin: 15, repsMax: 15, rest: '45s', note: '很轻重量只做泵感，慢放3秒' },
-      { name: '轻量绳索下压', sets: 2, repsMin: 15, repsMax: 15, rest: '45s', note: '三头泵感收尾' }
+      { name: 'Y-T-W-L 伸展（热身）', sets: 2, repsMin: 8, repsMax: 10, rest: '30s', note: '趴地面做，慢做控制肩胛' },
+      { name: '面拉 Face Pull（热身）', sets: 2, repsMin: 15, repsMax: 15, rest: '30s', note: '轻重量，找肩胛下沉感觉' },
+      { name: '收下巴 Chin Tuck（加强版）', sets: 4, repsMin: 10, repsMax: 15, rest: '30s', note: '🎯 核心动作！收下巴后脑勺后顶5秒，配合深呼气' },
+      { name: '颈部侧向拉伸（手压加深）', sets: 3, repsMin: 20, repsMax: 30, rest: '15s', note: '🎯 耳朵靠肩+手轻压头，每侧20秒，放松上斜方' },
+      { name: '颈部旋转拉伸（看腋下）', sets: 3, repsMin: 15, repsMax: 20, rest: '15s', note: '🎯 下巴转向腋下方向，拉伸颈侧+斜方，每侧15秒' },
+      { name: '颈部等长对抗（手抵额头）', sets: 3, repsMin: 10, repsMax: 10, rest: '30s', note: '🎯 手抵额头，脖子往前顶但不让头动，保持5秒，强化颈深屈肌' },
+      { name: '颈部等长对抗（手抵后脑）', sets: 3, repsMin: 10, repsMax: 10, rest: '30s', note: '🎯 手抵后脑勺，脖子往后顶但不让头动，保持5秒，强化颈伸肌' },
+      { name: '轻量面拉 Face Pull（正式）', sets: 3, repsMin: 15, repsMax: 20, rest: '45s', note: '后束+肩袖，轻重量高次数找泵感' },
+      { name: '轻量哑铃弯举（慢放）', sets: 3, repsMin: 12, repsMax: 15, rest: '45s', note: '轻重量泵感，放慢3秒感受二头拉伸' },
+      { name: '轻量绳索下压（慢放）', sets: 3, repsMin: 12, repsMax: 15, rest: '45s', note: '三头泵感，肘夹紧放慢3秒' },
+      { name: '侧平板支撑（跪姿可选）', sets: 3, repsMin: 20, repsMax: 40, rest: '30s', note: '侧腹+肩稳定，单位秒，肘撑地身体成一条线' },
+      { name: '仰卧抬腿', sets: 3, repsMin: 15, repsMax: 15, rest: '45s', note: '下腹，腰部贴地，腿慢起慢落' },
+      { name: '上斜方拉伸（收尾·加长）', sets: 3, repsMin: 30, repsMax: 40, rest: '10s', note: '耳朵靠肩每侧保持30~40秒，充分放松' }
     ]
   },
   thursday: {
